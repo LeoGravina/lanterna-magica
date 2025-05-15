@@ -1,0 +1,91 @@
+.meus-filmes{
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.meus-filmes h1{
+    margin-bottom: 14px;
+}
+
+.meus-filmes span{
+    font-size: 18px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: end;
+}
+
+.meus-filmes img{
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 2px;
+    margin-left: 0;
+}
+
+.meus-filmes ul{
+    width: 720px;
+}
+
+.meus-filmes ul li{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.meus-filmes div{
+    display: flex;
+    align-items: center;
+}
+
+.meus-filmes a{
+    text-decoration: none;
+    color: #116efb;
+    margin-right: 14px;
+}
+
+.meus-filmes button{
+    margin-left: 0;
+    font-size: 12px;
+    border: 0;
+    outline: none;
+    padding: 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.meus-filmes button:hover{
+    background-color: brown;
+    color: #FFF;
+}
+
+.btn-voltar div{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-voltar button{
+    margin-top: 20px;
+    font-size: 18px;
+    outline: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.btn-voltar a{
+    margin-right: 0;
+    text-decoration: none;
+    color: #000;
+    transition: all 0.5s;
+}
+
+.btn-voltar a:hover{
+    color: #FFF;
+}
