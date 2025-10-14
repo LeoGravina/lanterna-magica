@@ -31,7 +31,7 @@
 }
 
 .filmeCard:hover {
-    transform: scale(1.08) translateY(-10px);
+    transform: scale(1.01) translateY(-10px);
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(229, 9, 20, 0.4);
     z-index: 10;
 }
