@@ -1,0 +1,76 @@
+.homeContainer {
+    padding-top: var(--header-height);
+    padding-bottom: var(--spacing-xl);
+}
+
+.sectionTitle {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    letter-spacing: 1.5px;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+    border-left: 4px solid var(--color-red-brand);
+}
+
+.listaFilmes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* <-- Grade com 3 colunas de larguras iguais */
+    gap: var(--spacing-lg); /* Aumentei o espaçamento para combinar com o novo tamanho */
+}
+.filmeCard {
+    background-color: var(--color-gray-medium);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-white);
+    display: block;
+}
+
+.filmeCard:hover {
+    transform: scale(1.08) translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(229, 9, 20, 0.4);
+    z-index: 10;
+}
+
+.filmeCard img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    display: block;
+}
+
+.filmeInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.filmeCard:hover .filmeInfo {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.filmeInfo strong {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: var(--font-display);
+    font-size: 2rem;
+}

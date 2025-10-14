@@ -1,0 +1,134 @@
+.filmeContainer {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex; /* Centraliza o card de conteúdo verticalmente e horizontalmente */
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--header-height) + var(--spacing-lg)) var(--spacing-md);
+}
+
+.backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    filter: blur(8px) brightness(0.6); /* Desfoca e escurece o fundo para dar destaque ao card */
+}
+
+.contentCard {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+    
+    /* O EFEITO DE VIDRO (GLASSMORPHISM) */
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* Para compatibilidade com Safari */
+    border-radius: 16px;
+    padding: var(--spacing-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.poster {
+    flex-basis: 300px;
+    flex-shrink: 0;
+}
+
+.poster img {
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+}
+
+.details {
+    flex: 1;
+}
+
+.details h1 {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    letter-spacing: 1.5px;
+    line-height: 1.1;
+    color: var(--color-white);
+}
+
+.details span {
+    display: block;
+    margin-top: var(--spacing-md);
+    line-height: 1.7;
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: #ddd;
+    max-width: 800px;
+}
+
+.details strong {
+    display: inline-block;
+    margin-top: var(--spacing-md);
+    font-size: 1.2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+}
+
+.areaButtons {
+    margin-top: var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.btn {
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btnPrimary {
+    background-color: var(--color-red-brand);
+    color: var(--color-white);
+}
+
+.btnPrimary:hover:not(:disabled) {
+    background-color: var(--color-red-brand-hover);
+    transform: scale(1.05);
+}
+
+.btnSecondary {
+    background-color: rgba(100, 100, 100, 0.5);
+    color: var(--color-white);
+}
+
+.btnSecondary:hover {
+    background-color: rgba(120, 120, 120, 0.7);
+    transform: scale(1.05);
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: var(--font-display);
+    font-size: 2rem;
+}

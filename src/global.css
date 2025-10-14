@@ -1,0 +1,61 @@
+/* 1. Importando Fontes Cinematográficas do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;600;700&display=swap');
+
+/* 2. Reset e Padrões Globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Work Sans', sans-serif;
+}
+
+/* 3. Nosso Design System "Cinematográfico" */
+:root {
+  --color-black: #0a0a0a;
+  --color-gray-dark: #141414;
+  --color-gray-medium: #222;
+  --color-gray-light: #333;
+  --color-white: #f5f5f5;
+  --color-red-brand: #E50914;
+  --color-red-brand-hover: #f6121d;
+
+  --font-display: 'Bebas Neue', sans-serif; /* Para títulos grandes e logos */
+  --font-body: 'Work Sans', sans-serif;     /* Para textos corridos e UI */
+  
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 32px;
+  --spacing-xl: 64px;
+
+  --border-radius: 8px;
+  --header-height: 70px;
+}
+
+/* 4. Estilização do Body */
+body {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  overflow-x: hidden;
+}
+
+/* 5. Estilos de UI Globais (Container) */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* 6. Scrollbar Customizada - O detalhe que faz a diferença */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-gray-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-red-brand);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-red-brand-hover);
+}
