@@ -26,16 +26,15 @@
     align-items: flex-start;
     position: relative;
     z-index: 2;
-    
-    /* O EFEITO DE VIDRO (GLASSMORPHISM) */
-    background: rgba(20, 20, 20, 0.6);
+    background: rgba(20, 20, 20, 0.7); /* Aumentei um pouco a opacidade */
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* Para compatibilidade com Safari */
+    -webkit-backdrop-filter: blur(15px);
     border-radius: 16px;
     padding: var(--spacing-lg);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 1200px; /* Limita a largura máxima do card */
 }
-
 .poster {
     flex-basis: 300px;
     flex-shrink: 0;
@@ -131,4 +130,41 @@
     height: 100vh;
     font-family: var(--font-display);
     font-size: 2rem;
+}
+
+/* === MEDIA QUERIES PARA MOBILE === */
+@media (max-width: 900px) {
+    .contentCard {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: var(--spacing-md);
+        margin: 0 var(--spacing-sm);
+    }
+    .poster {
+        flex-basis: auto;
+        width: 100%;
+        max-width: 280px;
+    }
+    .details {
+        width: 100%;
+    }
+    .details h1 {
+        font-size: 2.5rem;
+    }
+    .details span {
+        font-size: 1rem;
+    }
+    .areaButtons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .areaButtons {
+        flex-direction: column;
+    }
+    .details h1 {
+        font-size: 2rem;
+    }
 }

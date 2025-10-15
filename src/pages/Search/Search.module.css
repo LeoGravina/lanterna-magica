@@ -1,79 +1,100 @@
-.searchContainer {
-    padding-top: calc(var(--header-height) + var(--spacing-lg));
-    padding-bottom: var(--spacing-xl);
+.header {
+    width: 100%;
+    height: var(--header-height);
+    background-color: var(--color-black); /* Fundo sólido para evitar problemas com conteúdo por baixo */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-md); /* Reduzido para telas menores */
+    gap: var(--spacing-md);
+    border-bottom: 1px solid var(--color-gray-light);
 }
 
-.sectionTitle {
+.logo {
     font-family: var(--font-display);
-    font-size: 2.5rem;
-    letter-spacing: 1.5px;
-    margin-bottom: var(--spacing-md);
+    font-size: 2.5rem; /* Reduzido */
+    color: var(--color-red-brand);
+    text-decoration: none;
+    letter-spacing: 2px;
 }
 
-.queryText {
+.searchForm {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-gray-medium);
+    padding: 6px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-gray-light);
+    flex-grow: 1;
+    max-width: 350px;
+}
+
+/* === ESTILOS QUE ESTAVAM FALTANDO === */
+.searchForm input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--color-white);
+    font-size: 1rem;
+    width: 100%;
+}
+
+.searchForm input::placeholder {
+    color: #888;
+}
+
+.searchForm button {
+    background: none;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.searchForm button:hover {
     color: var(--color-red-brand);
 }
+/* === FIM DOS ESTILOS QUE FALTAVAM === */
 
-.listaFilmes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--spacing-md);
-    justify-content: flex-start; /* <<-- ADICIONE ESTA LINHA */
-}
-
-.filmeCard {
-    background-color: var(--color-gray-medium);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    cursor: pointer;
-    text-decoration: none;
+.favoritosBtn {
+    background-color: var(--color-red-brand);
     color: var(--color-white);
-    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    white-space: nowrap;
 }
 
-.filmeCard:hover {
-    transform: scale(1.08) translateY(-10px);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(229, 9, 20, 0.4);
-    z-index: 10;
+.favoritosBtn:hover {
+    background-color: transparent;
+    border-color: var(--color-red-brand);
+    transform: scale(1.05);
 }
 
-.filmeCard img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    display: block;
-}
-
-.filmeInfo {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
-    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s ease;
-}
-
-.filmeCard:hover .filmeInfo {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.filmeInfo strong {
-    font-size: 1.2rem;
-    font-weight: 700;
-}
-
-.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: var(--font-display);
-    font-size: 2rem;
+/* === MEDIA QUERIES PARA MOBILE === */
+@media (max-width: 768px) {
+    .searchForm {
+        /* Esconde o formulário em telas muito pequenas para dar espaço */
+        display: none; 
+    }
+    .logo {
+        font-size: 2rem;
+        /* Centraliza o logo quando a busca some */
+        flex-grow: 1; 
+    }
+    .favoritosBtn {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
 }

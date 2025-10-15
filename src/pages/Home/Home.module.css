@@ -15,15 +15,17 @@
 
 .listaFilmes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* <-- Grade com 3 colunas de larguras iguais */
-    gap: var(--spacing-lg); /* Aumentei o espaçamento para combinar com o novo tamanho */
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    position: relative; /* Garante o contexto para o z-index dos cards */
 }
+
 .filmeCard {
     background-color: var(--color-gray-medium);
     border-radius: var(--border-radius);
     overflow: hidden;
     position: relative;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     text-decoration: none;
     color: var(--color-white);
@@ -31,8 +33,8 @@
 }
 
 .filmeCard:hover {
-    transform: scale(1.01) translateY(-10px);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(229, 9, 20, 0.4);
+    transform: scale(1.04) translateY(-8px); /* Efeito de scale reduzido */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.7);
     z-index: 10;
 }
 
@@ -56,9 +58,10 @@
     transition: all 0.4s ease;
 }
 
-.filmeCard:hover .filmeInfo {
-    opacity: 1;
-    transform: translateY(0);
+.filmeCard:hover {
+    transform: scale(1.01) translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(229, 9, 20, 0.4);
+    z-index: 10;
 }
 
 .filmeInfo strong {
@@ -73,4 +76,25 @@
     height: 100vh;
     font-family: var(--font-display);
     font-size: 2rem;
+}
+
+
+/* === MEDIA QUERIES PARA MOBILE === */
+@media (max-width: 992px) {
+    .listaFilmes {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    .sectionTitle {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .listaFilmes {
+        grid-template-columns: 1fr;
+    }
+    .sectionTitle {
+        font-size: 2rem;
+    }
 }
