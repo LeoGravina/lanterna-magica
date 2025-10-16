@@ -29,7 +29,12 @@ function Header() {
 
     return (
         <header className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
-            <Link className={styles.logo} to="/">Prime Flix</Link>
+            <div className={styles.logoContainer}>
+                <Link className={styles.logo} to="/">LANTERNA MÁGICA</Link>
+                <p className={styles.tooltip}>
+                    Uma homenagem aos primórdios do cinema, sugerindo descoberta e encanto.
+                </p>
+            </div>
 
             <form className={styles.searchForm} onSubmit={handleSubmit}>
                 <input
@@ -43,7 +48,7 @@ function Header() {
                 </button>
             </form>
 
-            <Link className={styles.favoritosBtn} to="/favoritos">Meus Filmes</Link>
+            <Link className={styles.favoritosBtn} to="/favoritos">MEUS FILMES</Link>
         </header>
     );
 }

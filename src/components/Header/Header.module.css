@@ -5,24 +5,31 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--spacing-md);
     gap: var(--spacing-md);
     border-bottom: 1px solid var(--color-gray-light);
+    transition: height 0.3s ease;
+}
+
+.logoContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .logo {
     font-family: var(--font-display);
     font-size: 2.5rem;
-    color: var(--color-red-brand);
+    color: var(--color-brand-yellow);
     text-decoration: none;
     letter-spacing: 2px;
+    white-space: nowrap; /* Impede que o nome quebre em duas linhas */
 }
 
-/* PASSO 3: Os estilos que devem ser aplicados */
 .searchForm {
     display: flex;
     align-items: center;
@@ -60,12 +67,12 @@
 }
 
 .searchForm button:hover {
-    color: var(--color-red-brand);
+    color: var(--color-brand-yellow);
 }
 
 .favoritosBtn {
-    background-color: var(--color-red-brand);
-    color: var(--color-white);
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius);
     text-decoration: none;
@@ -76,22 +83,68 @@
 }
 
 .favoritosBtn:hover {
-    background-color: transparent;
-    border-color: var(--color-red-brand);
+    background-color: var(--color-brand-yellow-hover);
     transform: scale(1.05);
 }
 
-/* MEDIA QUERIES PARA MOBILE */
+.tooltip {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: var(--color-gray-medium);
+    color: #ccc;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-gray-light);
+    width: 280px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    z-index: 10000;
+}
+
+.logoContainer:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* === MEDIA QUERIES PARA MOBILE - VERSÃO CORRIGIDA PARA LOGO DE TEXTO === */
 @media (max-width: 768px) {
-    .searchForm {
-        display: none; 
+    .header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: var(--spacing-sm) var(--spacing-md);
     }
+
+    .logoContainer {
+        flex-grow: 1;
+    }
+
     .logo {
-        font-size: 2rem;
-        flex-grow: 1; 
+        /* Regra corrigida: ajusta o tamanho da fonte do logo em texto */
+        font-size: 1.8rem;
+        letter-spacing: 1px;
     }
+
     .favoritosBtn {
-        font-size: 0.9rem;
-        padding: 6px 10px;
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+
+    .searchForm {
+        /* Barra de busca agora visível na linha de baixo */
+        order: 3;
+        width: 100%;
+        max-width: none;
+        margin-top: var(--spacing-sm);
+    }
+
+    .tooltip {
+        /* Esconde o tooltip em telas pequenas para não poluir a interface */
+        display: none;
     }
 }

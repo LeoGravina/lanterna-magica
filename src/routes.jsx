@@ -6,7 +6,8 @@ import Home from './pages/Home/Home.jsx';
 import Filme from './pages/Filme/Filme.jsx';
 import Favoritos from './pages/Favoritos/Favoritos.jsx';
 import Erro from './pages/Erro/Erro.jsx';
-import Search from './pages/Search/Search.jsx'; // 1. Importe a nova página
+import Search from './pages/Search/Search.jsx';
+import Pessoa from './pages/Pessoa/Pessoa.jsx'; // 1. A importação está aqui?
 
 function RoutesApp() {
     const location = useLocation();
@@ -17,7 +18,11 @@ function RoutesApp() {
                     <Route path="/" element={<Home />} />
                     <Route path="/filme/:id" element={<Filme />} />
                     <Route path="/favoritos" element={<Favoritos />} />
-                    <Route path="/search" element={<Search />} /> {/* 2. Adicione a nova rota */}
+                    <Route path="/search" element={<Search />} />
+                    
+                    {/* 2. A rota está definida EXATAMENTE assim? */}
+                    <Route path="/person/:id" element={<Pessoa />} /> 
+                
                 </Route>
                 <Route path="*" element={<Erro />} />
             </Routes>

@@ -104,12 +104,12 @@
 }
 
 .btnPrimary {
-    background-color: var(--color-red-brand);
-    color: var(--color-white);
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
 }
 
 .btnPrimary:hover:not(:disabled) {
-    background-color: var(--color-red-brand-hover);
+    background-color: var(--color-brand-yellow-hover);
     transform: scale(1.05);
 }
 
@@ -130,6 +130,134 @@
     height: 100vh;
     font-family: var(--font-display);
     font-size: 2rem;
+}
+
+/* Adicione estas classes ao final de Filme.module.css */
+
+.similarSection {
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-xl);
+}
+
+.sectionTitle {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    letter-spacing: 1.5px;
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+    border-left: 4px solid var(--color-brand-yellow);
+}
+
+.similarGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.similarCard {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.similarCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.similarCard img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+}
+
+/* Adicione estas classes no final de Filme.module.css */
+
+/* Estilos do Skeleton */
+.skeletonPoster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    border-radius: var(--border-radius);
+}
+.skeletonTitle {
+    height: 4rem;
+    width: 70%;
+    margin-bottom: var(--spacing-md);
+}
+.skeletonText {
+    height: 1.1rem;
+    margin-top: var(--spacing-sm);
+    border-radius: 4px;
+}
+.skeletonTag {
+    height: 2.2rem;
+    width: 150px;
+    margin-top: var(--spacing-md);
+    border-radius: var(--border-radius);
+}
+
+/* Estilos do Elenco */
+.castSection {
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+}
+
+.castGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.castMember {
+    text-align: center;
+}
+
+.castMember img {
+    width: 100%;
+    height: 210px; /* Altura fixa para alinhar */
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--border-radius);
+    background-color: var(--color-gray-medium);
+    margin-bottom: var(--spacing-sm);
+}
+
+.castMember strong {
+    font-size: 1rem;
+    font-weight: 700;
+    display: block;
+    color: var(--color-white);
+}
+
+.castMember span {
+    font-size: 0.9rem;
+    color: #aaa;
+    display: block;
+}
+
+.imagePlaceholder {
+    width: 100%;
+    height: 210px; /* Mesma altura da imagem do ator */
+    aspect-ratio: 185/278; /* Proporção da imagem da API para manter consistência */
+    background-color: var(--color-gray-medium);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-light);
+}
+
+/* Adicione no final de Filme.module.css */
+.castMemberLink {
+    text-decoration: none; /* Remove o sublinhado do link */
+    color: inherit; /* Herda a cor do texto pai */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.castMemberLink:hover {
+    transform: scale(1.05); /* Efeito de zoom no hover */
 }
 
 /* === MEDIA QUERIES PARA MOBILE === */
@@ -157,6 +285,13 @@
     }
     .areaButtons {
         justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .listaFilmes {
+        grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+        gap: var(--spacing-sm);
     }
 }
 

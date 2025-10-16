@@ -16,8 +16,8 @@
   --color-gray-medium: #222;
   --color-gray-light: #333;
   --color-white: #f5f5f5;
-  --color-red-brand: #E50914;
-  --color-red-brand-hover: #f6121d;
+  --color-brand-yellow: #FFBF00; /* Um amarelo dourado, vibrante e elegante */
+  --color-brand-yellow-hover: #FFD700;
 
   --font-display: 'Bebas Neue', sans-serif; /* Para títulos grandes e logos */
   --font-body: 'Work Sans', sans-serif;     /* Para textos corridos e UI */
@@ -53,9 +53,30 @@ body {
   background: var(--color-gray-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-red-brand);
+  background: var(--color-brand-yellow);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-red-brand-hover);
+  background: var(--color-brand-yellow-hover-hover);
+}
+
+/* 7. Toast estilizado */
+.Toastify__progress-bar--success {
+  background: var(--color-brand-yellow) !important;
+}
+
+/* 8. Animação de Esqueleto (Shimmer Effect) */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(to right, var(--color-gray-medium) 8%, var(--color-gray-light) 18%, var(--color-gray-medium) 33%);
+  background-size: 2000px 100%;
+  animation: shimmer 2s infinite linear;
 }

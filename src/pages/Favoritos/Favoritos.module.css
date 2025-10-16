@@ -10,7 +10,7 @@
     margin-top: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
     padding-left: var(--spacing-lg);
-    border-left: 4px solid var(--color-red-brand);
+    border-left: 4px solid var(--color-brand-yellow);
 }
 
 .listaFilmes {
@@ -32,7 +32,7 @@
 }
 
 .emptyMessage a {
-    color: var(--color-red-brand);
+    color: var(--color-brand-yellow);
     text-decoration: underline;
     font-weight: bold;
 }
@@ -46,8 +46,8 @@
 }
 
 .filmeCard:hover {
-    transform: scale(1.04) translateY(-8px); /* Efeito de scale reduzido */
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.7);
+    transform: scale(1.01) translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(205, 173, 12, 0.879);
     z-index: 10;
 }
 
@@ -115,16 +115,17 @@
     border: 2px solid transparent;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    background-color: var(--color-red-brand);
-    color: var(--color-white);
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
 }
 
 .btn:hover {
-    background-color: var(--color-red-brand-hover);
+    background-color: var(--color-brand-yellow-hover);
 }
 
 .btnExclude {
     background-color: rgba(100, 100, 100, 0.5);
+    color: var(--color-white);
 }
 
 .btnExclude:hover {
@@ -132,7 +133,11 @@
 }
 
 /* === MEDIA QUERIES PARA MOBILE === */
-@media (max-width: 992px) {
+@media (max-width: 768px) {
+    .favoritosContainer {
+        /* Aumenta o espaçamento do topo no mobile */
+        padding-top: 140px;
+    }
     .listaFilmes {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-md);
@@ -144,6 +149,7 @@
 
 @media (max-width: 600px) {
     .listaFilmes {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr); /* 3 colunas */
+        gap: var(--spacing-sm);
     }
 }

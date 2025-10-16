@@ -1,61 +1,129 @@
+// src/pages/Home/Home.jsx
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import { motion } from 'framer-motion';
+import { FaChevronDown } from 'react-icons/fa';
+
+// Componente para o esqueleto do Card de Filme
+const SkeletonCard = () => (
+    <div className={styles.skeletonCard}>
+        <div className={`${styles.skeleton} ${styles.skeletonImg}`}></div>
+    </div>
+);
 
 function Home() {
     const [filmes, setFilmes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false); // Estado para o botão "Carregar Mais"
+    const [genres, setGenres] = useState([]);
+    const [selectedGenre, setSelectedGenre] = useState(null);
+    const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
+    // Efeito para buscar a lista de gêneros (roda apenas uma vez)
     useEffect(() => {
-        async function loadFilmes() {
-            // Usaremos Promise.all para fazer as 3 chamadas à API em paralelo
-            const apiKey = import.meta.env.VITE_API_KEY;
-            const language = "pt-BR";
-
-            const [page1, page2, page3] = await Promise.all([
-                api.get("movie/now_playing", { params: { api_key: apiKey, language, page: 1 } }),
-                api.get("movie/now_playing", { params: { api_key: apiKey, language, page: 2 } }),
-                api.get("movie/now_playing", { params: { api_key: apiKey, language, page: 3 } })
-            ]);
-
-            // Juntamos os resultados das 3 páginas em um único array
-            const allMovies = [
-                ...page1.data.results,
-                ...page2.data.results,
-                ...page3.data.results
-            ];
-
-            // Pegamos os primeiros 50 filmes da lista combinada
-            setFilmes(allMovies.slice(0, 100));
-            setLoading(false);
+        async function loadGenres() {
+            try {
+                const response = await api.get("/genre/movie/list", {
+                    params: { api_key: import.meta.env.VITE_API_KEY, language: "pt-BR" }
+                });
+                setGenres(response.data.genres);
+            } catch (error) {
+                console.error("Falha ao buscar gêneros", error);
+            }
         }
-        loadFilmes();
+        loadGenres();
     }, []);
 
-    if (loading) {
-        return (
-            <div className={styles.loading}>
-                <h2>Carregando Filmes...</h2>
-            </div>
-        );
-    }
+    // Efeito para buscar os filmes (agora com paginação)
+    useEffect(() => {
+        async function loadFilmes() {
+            // Se for página > 1, é o "Carregar Mais"
+            if (page > 1) {
+                setLoadingMore(true);
+            } else {
+                setLoading(true); // Se for a primeira página, mostra o skeleton
+            }
+            
+            const params = { api_key: import.meta.env.VITE_API_KEY, language: "pt-BR", page };
+            if (selectedGenre) {
+                params.with_genres = selectedGenre.id;
+            }
+            
+            const endpoint = selectedGenre ? "discover/movie" : "movie/now_playing";
+
+            const response = await api.get(endpoint, { params });
+
+            setFilmes(prevFilmes => page === 1 ? response.data.results : [...prevFilmes, ...response.data.results]);
+            setHasMore(response.data.page < response.data.total_pages);
+            setLoading(false);
+            setLoadingMore(false);
+        }
+        loadFilmes();
+    }, [selectedGenre, page]);
+
+    // Reseta a paginação e a lista de filmes ao mudar de gênero
+    useEffect(() => {
+        setPage(1);
+        setFilmes([]);
+    }, [selectedGenre]);
+
+    const handleGenreSelect = (genre) => {
+        setSelectedGenre(genre);
+        setIsGenreDropdownOpen(false);
+    };
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className={`container ${styles.homeContainer}`}>
-                <h1 className={styles.sectionTitle}>Em Cartaz</h1>
-                <div className={styles.listaFilmes}>
-                    {filmes.map((filme) => (
-                        <Link to={`/filme/${filme.id}`} key={filme.id} className={styles.filmeCard}>
-                            <img src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
-                            <div className={styles.filmeInfo}>
-                                <strong>{filme.title}</strong>
+                <div className={styles.titleAndFilter}>
+                    <h1 className={styles.sectionTitle}>{selectedGenre ? selectedGenre.name : "Em Cartaz"}</h1>
+                    
+                    <div className={styles.filterContainer}>
+                        <button className={styles.filterButton} onClick={() => setIsGenreDropdownOpen(!isGenreDropdownOpen)}>
+                            Gêneros <FaChevronDown size={14} />
+                        </button>
+                        {isGenreDropdownOpen && (
+                            <div className={styles.genreDropdown}>
+                                <button onClick={() => handleGenreSelect(null)}>Todos</button>
+                                {genres.map((genre) => (
+                                    <button key={genre.id} onClick={() => handleGenreSelect(genre)}>
+                                        {genre.name}
+                                    </button>
+                                ))}
                             </div>
-                        </Link>
-                    ))}
+                        )}
+                    </div>
                 </div>
+
+                {loading ? (
+                    <div className={styles.listaFilmes}>
+                        {Array.from({ length: 12 }).map((_, index) => (
+                            <SkeletonCard key={index} />
+                        ))}
+                    </div>
+                ) : (
+                    <>
+                        <div className={styles.listaFilmes}>
+                            {filmes.map((filme) => (
+                                <Link to={`/filme/${filme.id}`} key={filme.id} className={styles.filmeCard}>
+                                    <img src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
+                                    <div className={styles.filmeInfo}><strong>{filme.title}</strong></div>
+                                </Link>
+                            ))}
+                        </div>
+                        {hasMore && (
+                            <div className={styles.loadMoreContainer}>
+                                <button onClick={() => setPage(prevPage => prevPage + 1)} className={styles.loadMoreButton} disabled={loadingMore}>
+                                    {loadingMore ? 'Carregando...' : 'Carregar Mais'}
+                                </button>
+                            </div>
+                        )}
+                    </>
+                )}
             </div>
         </motion.div>
     );

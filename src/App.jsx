@@ -8,7 +8,7 @@ import './global.css';
 function App() {
   return (
     <BrowserRouter>
-      <ToastContainer autoClose={1500} theme="dark" position="bottom-right" />
+      <ToastContainer autoClose={1500} theme="dark" position="top-right" />
       <RoutesApp />
     </BrowserRouter>
   );
