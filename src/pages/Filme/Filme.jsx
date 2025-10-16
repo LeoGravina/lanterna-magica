@@ -1,4 +1,4 @@
-// src/pages/Filme/Filme.jsx (Final, com Elenco e Skeleton)
+// src/pages/Filme/Filme.jsx (Versão Final Completa)
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
@@ -29,8 +29,9 @@ function Filme() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [filme, setFilme] = useState({});
-    const [cast, setCast] = useState([]); // State para o elenco
+    const [cast, setCast] = useState([]);
     const [similarMovies, setSimilarMovies] = useState([]);
+    const [watchProviders, setWatchProviders] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
 
@@ -42,16 +43,20 @@ function Filme() {
                 const apiKey = import.meta.env.VITE_API_KEY;
                 const language = "pt-BR";
 
-                // Busca todos os dados em paralelo
-                const [filmeResponse, similarResponse, creditsResponse] = await Promise.all([
+                const [filmeResponse, similarResponse, creditsResponse, providersResponse] = await Promise.all([
                     api.get(`/movie/${id}`, { params: { api_key: apiKey, language } }),
                     api.get(`/movie/${id}/similar`, { params: { api_key: apiKey, language, page: 1 } }),
-                    api.get(`/movie/${id}/credits`, { params: { api_key: apiKey, language } })
+                    api.get(`/movie/${id}/credits`, { params: { api_key: apiKey, language } }),
+                    api.get(`/movie/${id}/watch/providers`, { params: { api_key: apiKey } })
                 ]);
                 
                 setFilme(filmeResponse.data);
                 setSimilarMovies(similarResponse.data.results.slice(0, 6));
-                setCast(creditsResponse.data.cast.slice(0, 8)); // Pega os 8 atores principais
+                setCast(creditsResponse.data.cast.slice(0, 8));
+                
+                if (providersResponse.data.results.BR) {
+                    setWatchProviders(providersResponse.data.results.BR);
+                }
                 
                 const minhaLista = localStorage.getItem("@lanternaMagica");
                 const filmesSalvos = JSON.parse(minhaLista) || [];
@@ -95,6 +100,26 @@ function Filme() {
         return <SkeletonFilme />;
     }
 
+    const renderProviders = (providers) => {
+        if (!providers) return null;
+        return providers.map(provider => {
+            const searchQuery = `Assistir ${filme.title} ${provider.provider_name}`;
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+
+            return (
+                <a 
+                    key={provider.provider_id} 
+                    href={searchUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={styles.provider}
+                >
+                    <img src={`https://image.tmdb.org/t/p/w92/${provider.logo_path}`} alt={provider.provider_name} title={provider.provider_name} />
+                </a>
+            );
+        });
+    };
+
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className={styles.filmeContainer}>
@@ -111,7 +136,7 @@ function Filme() {
                                 <span>{filme.overview}</span>
                             </>
                         )}
-                        <strong>Avaliação: {filme.vote_average.toFixed(1)} / 10</strong>
+                        <strong>Avaliação: {filme.vote_average ? filme.vote_average.toFixed(1) : 'N/A'} / 10</strong>
                         <div className={styles.areaButtons}>
                             <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={salvarFilme} disabled={isSaved}>
                                 {isSaved ? "JÁ SALVO" : "SALVAR"}
@@ -123,20 +148,27 @@ function Filme() {
                                 VOLTAR
                             </Link>
                         </div>
+
+                        {watchProviders && (watchProviders.flatrate || watchProviders.rent || watchProviders.buy) && (
+                            <div className={styles.streamingSection}>
+                                <h3>Onde Assistir</h3>
+                                <div className={styles.providers}>
+                                    {renderProviders(watchProviders.flatrate)}
+                                    {renderProviders(watchProviders.rent)}
+                                    {renderProviders(watchProviders.buy)}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
 
-            {/* SEÇÃO DE ELENCO PRINCIPAL - VERSÃO CORRIGIDA COM LINK */}
             {cast.length > 0 && (
                 <div className={`container ${styles.castSection}`}>
                     <h2 className={styles.sectionTitle}>Elenco Principal</h2>
                     <div className={styles.castGrid}>
                         {cast.map((person) => (
-                            // 1. O <Link> agora envolve todo o card do ator. A 'key' vem para cá.
                             <Link to={`/person/${person.id}`} key={person.id} className={styles.castMemberLink}>
-                                
-                                {/* 2. O conteúdo do card (imagem, nome) continua o mesmo, mas agora está DENTRO do Link */}
                                 <div className={styles.castMember}>
                                     {person.profile_path ? (
                                         <img 
@@ -151,14 +183,12 @@ function Filme() {
                                     <strong>{person.name}</strong>
                                     <span>{person.character}</span>
                                 </div>
-
                             </Link>
                         ))}
                     </div>
                 </div>
             )}
 
-            {/* Seção de Filmes Semelhantes */}
             {similarMovies.length > 0 && (
                 <div className={`container ${styles.similarSection}`}>
                     <h2 className={styles.sectionTitle}>Filmes Semelhantes</h2>
