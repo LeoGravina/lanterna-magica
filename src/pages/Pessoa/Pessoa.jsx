@@ -1,4 +1,3 @@
-// src/pages/Pessoa/Pessoa.jsx (Atualizado)
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../services/api';
@@ -76,7 +75,6 @@ function Pessoa() {
                         <h2>Filmografia</h2>
                         <div className={styles.filmGrid}>
                             {movieCredits.map((movie) => (
-                                // ESTRUTURA DO CARD ATUALIZADA AQUI
                                 <Link to={`/filme/${movie.id}`} key={movie.credit_id} className={styles.movieCard}>
                                     {movie.poster_path ? (
                                         <img 
@@ -88,7 +86,6 @@ function Pessoa() {
                                             <span>{movie.title}</span>
                                         </div>
                                     )}
-                                    {/* DIV DE INFO PARA O OVERLAY */}
                                     <div className={styles.movieInfo}>
                                         <strong>{movie.title}</strong>
                                     </div>

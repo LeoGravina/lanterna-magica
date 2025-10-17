@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 function Search() {
     const [searchParams] = useSearchParams();
-    const query = searchParams.get("q"); // Pega o "?q=valor" da URL
+    const query = searchParams.get("q"); 
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -26,7 +26,7 @@ function Search() {
             setLoading(false);
         }
         loadSearchedMovies();
-    }, [query]); // Roda o efeito sempre que a query de busca mudar
+    }, [query]); 
 
     if (loading) {
         return <div className={styles.loading}><h2>Carregando...</h2></div>;

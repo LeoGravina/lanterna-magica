@@ -1,4 +1,3 @@
-// src/pages/Perfil/Perfil.jsx
 import { useState, useEffect } from 'react';
 import styles from './Perfil.module.css';
 import { auth } from '../../firebase/firebase.js';

@@ -1,8 +1,8 @@
-// src/routes.jsx
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 import { MainLayout } from './components/Layout/index.jsx';
+import { PrivateRoute } from './components/PrivateRoute/index.jsx';
 import Home from './pages/Home/Home.jsx';
 import Filme from './pages/Filme/Filme.jsx';
 import Favoritos from './pages/Favoritos/Favoritos.jsx';
@@ -10,7 +10,7 @@ import Erro from './pages/Erro/Erro.jsx';
 import Search from './pages/Search/Search.jsx';
 import Pessoa from './pages/Pessoa/Pessoa.jsx';
 import Login from './pages/Login/Login.jsx';
-import Perfil from './pages/Perfil/Perfil.jsx'; // Importa a nova página
+import Perfil from './pages/Perfil/Perfil.jsx';
 
 function RoutesApp() {
     const location = useLocation();
@@ -20,12 +20,17 @@ function RoutesApp() {
                 <Route path="/login" element={<Login />} />
 
                 <Route element={<MainLayout />}>
+                    
                     <Route path="/" element={<Home />} />
                     <Route path="/filme/:id" element={<Filme />} />
-                    <Route path="/favoritos" element={<Favoritos />} />
                     <Route path="/search" element={<Search />} />
                     <Route path="/person/:id" element={<Pessoa />} /> 
-                    <Route path="/perfil" element={<Perfil />} /> {/* Adiciona a nova rota */}
+                    
+                    <Route element={<PrivateRoute />}> 
+                        <Route path="/favoritos" element={<Favoritos />} />
+                        <Route path="/perfil" element={<Perfil />} />
+                    </Route>
+
                 </Route>
                 
                 <Route path="*" element={<Erro />} />

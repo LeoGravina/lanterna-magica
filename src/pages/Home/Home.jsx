@@ -1,4 +1,3 @@
-// src/pages/Home/Home.jsx
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { Link } from 'react-router-dom';
@@ -6,7 +5,6 @@ import styles from './Home.module.css';
 import { motion } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa';
 
-// Componente para o esqueleto do Card de Filme
 const SkeletonCard = () => (
     <div className={styles.skeletonCard}>
         <div className={`${styles.skeleton} ${styles.skeletonImg}`}></div>
@@ -16,14 +14,13 @@ const SkeletonCard = () => (
 function Home() {
     const [filmes, setFilmes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [loadingMore, setLoadingMore] = useState(false); // Estado para o botão "Carregar Mais"
+    const [loadingMore, setLoadingMore] = useState(false);
     const [genres, setGenres] = useState([]);
     const [selectedGenre, setSelectedGenre] = useState(null);
     const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
-    // Efeito para buscar a lista de gêneros (roda apenas uma vez)
     useEffect(() => {
         async function loadGenres() {
             try {
@@ -38,14 +35,12 @@ function Home() {
         loadGenres();
     }, []);
 
-    // Efeito para buscar os filmes (agora com paginação)
     useEffect(() => {
         async function loadFilmes() {
-            // Se for página > 1, é o "Carregar Mais"
             if (page > 1) {
                 setLoadingMore(true);
             } else {
-                setLoading(true); // Se for a primeira página, mostra o skeleton
+                setLoading(true); 
             }
             
             const params = { api_key: import.meta.env.VITE_API_KEY, language: "pt-BR", page };
@@ -65,7 +60,6 @@ function Home() {
         loadFilmes();
     }, [selectedGenre, page]);
 
-    // Reseta a paginação e a lista de filmes ao mudar de gênero
     useEffect(() => {
         setPage(1);
         setFilmes([]);

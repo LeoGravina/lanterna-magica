@@ -1,4 +1,3 @@
-// src/pages/Filme/Filme.jsx (Final e Completo com Firebase)
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { db, auth } from '../../firebase/firebase.js';
@@ -10,7 +9,6 @@ import styles from './Filme.module.css';
 import { motion } from 'framer-motion';
 import { FaStar, FaUserAlt } from 'react-icons/fa';
 
-// Componente para o esqueleto da página de detalhes
 const SkeletonFilme = () => (
     <div className={styles.filmeContainer}>
         <div className={`container ${styles.contentCard}`}>

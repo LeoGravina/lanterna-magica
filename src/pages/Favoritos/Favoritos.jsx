@@ -1,4 +1,3 @@
-// src/pages/Favoritos/Favoritos.jsx (Versão Final Completa)
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { db, auth } from '../../firebase/firebase.js';
@@ -7,7 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { toast } from 'react-toastify';
 import styles from './Favoritos.module.css';
 import { motion } from 'framer-motion';
-import { FaFilm } from 'react-icons/fa'; // Ícone para a mensagem de lista vazia
+import { FaFilm } from 'react-icons/fa';
 
 function Favoritos() {
     const [filmes, setFilmes] = useState([]);
@@ -20,7 +19,6 @@ function Favoritos() {
             if (currentUser) {
                 setUser(currentUser);
             } else {
-                // Se o usuário não estiver logado, redireciona para a página de login
                 navigate('/login');
             }
         });
@@ -29,7 +27,7 @@ function Favoritos() {
 
     useEffect(() => {
         async function loadSavedMovies() {
-            if (!user) return; // Não faz nada se o usuário ainda não foi definido
+            if (!user) return; 
             setLoading(true);
             const moviesRef = collection(db, "users", user.uid, "movies");
             const querySnapshot = await getDocs(moviesRef);
@@ -50,13 +48,11 @@ function Favoritos() {
         if (!user) return;
         const movieRef = doc(db, "users", user.uid, "movies", movieId.toString());
         await deleteDoc(movieRef);
-        // Atualiza a lista na tela removendo o filme excluído
         setFilmes(filmes.filter(filme => filme.id !== movieId));
         toast.success("Filme removido com sucesso!");
     }
 
     if (loading) {
-        // Você pode substituir isso por um componente de Skeleton se quiser
         return <div className={styles.loading}><h1>Carregando filmes salvos...</h1></div>;
     }
 
