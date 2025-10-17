@@ -110,6 +110,10 @@ function Login() {
                     {isRegistering ? 'Já tenho uma conta' : 'Não possui uma conta? Cadastre-se'}
                 </button>
             </div>
+
+            <Link to="/" className={styles.backLink}>
+                Voltar ao site
+            </Link>
         </div>
     );
 }

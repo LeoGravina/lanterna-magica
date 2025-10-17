@@ -1,4 +1,4 @@
-/* src/components/Header/Header.module.css (Versão "MUITO FODA") */
+/* src/components/Header/Header.module.css (Versão Final Completa) */
 .header {
     width: 100%;
     height: var(--header-height);
@@ -7,7 +7,6 @@
     left: 0;
     z-index: 9999;
     
-    /* O EFEITO DE VIDRO (GLASSMORPHISM) */
     background: rgba(10, 10, 10, 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -19,7 +18,6 @@
     transition: all 0.3s ease;
 }
 
-/* Divisão do Header em 3 seções para alinhamento perfeito */
 .headerLeft, .headerRight { flex: 1; }
 .headerCenter { flex: 2; display: flex; justify-content: center; }
 .headerLeft { display: flex; justify-content: flex-start; }
@@ -38,7 +36,7 @@
     text-decoration: none;
     letter-spacing: 2px;
     white-space: nowrap;
-    text-shadow: 0 0 10px rgba(255, 191, 0, 0.5); /* Glow sutil no logo */
+    text-shadow: 0 0 10px rgba(255, 191, 0, 0.5);
     transition: all 0.3s ease;
 }
 .logo:hover {
@@ -48,7 +46,7 @@
 .searchForm {
     display: flex;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.05); /* Fundo quase invisível */
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--color-gray-light);
     border-radius: 50px;
     padding: 6px 8px 6px 16px;
@@ -56,43 +54,41 @@
     max-width: 450px;
     transition: all 0.3s ease;
 }
-
-/* Efeito de foco na busca */
 .searchForm:focus-within {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: var(--color-brand-yellow);
     box-shadow: 0 0 15px rgba(205, 173, 12, 0.5);
 }
-
 .searchForm input {
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--color-white);
-    font-size: 1rem;
-    width: 100%;
+    background: none; border: none; outline: none;
+    color: var(--color-white); font-size: 1rem; width: 100%;
 }
 .searchForm input::placeholder { color: #888; }
-
 .searchForm button {
-    background: none;
-    border: none;
-    color: #aaa;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: none; border: none; color: #aaa; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
     transition: color 0.3s ease;
 }
-.searchForm:focus-within button {
-    color: var(--color-brand-yellow);
-}
+.searchForm:focus-within button { color: var(--color-brand-yellow); }
 
 .userActions { display: flex; align-items: center; }
 
-.actionButton { /* Botão de Login */
-    /* ... (Estilos do botão de login continuam os mesmos) ... */
+/* ===== ESTILO CORRETO PARA O BOTÃO DE LOGIN ===== */
+.actionButton { 
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: all 0.3s ease;
 }
+.actionButton:hover {
+    background-color: var(--color-brand-yellow-hover);
+    transform: scale(1.05);
+}
+/* ===== FIM DO ESTILO DO BOTÃO DE LOGIN ===== */
 
 /* Estilos do Dropdown */
 .userDropdown { position: relative; }
@@ -127,45 +123,43 @@
     width: 220px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.5);
     z-index: 1000;
-
-    /* Animação de entrada */
     opacity: 0;
     transform: translateY(-10px);
     animation: dropdownFadeIn 0.3s forwards;
 }
 
-@keyframes dropdownFadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+@keyframes dropdownFadeIn { to { opacity: 1; transform: translateY(0); } }
 
 .dropdownItem {
-    display: block;
-    width: 100%;
-    padding: 12px 16px;
-    background: none;
-    border: none;
-    color: var(--color-white);
-    text-align: left;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
+    display: block; width: 100%; padding: 12px 16px;
+    background: none; border: none; color: var(--color-white);
+    text-align: left; font-size: 1rem; cursor: pointer;
+    text-decoration: none; transition: all 0.2s ease-in-out;
 }
 .dropdownItem:hover {
     background-color: var(--color-brand-yellow);
-    color: var(--color-black);
-    padding-left: 20px;
+    color: var(--color-black); padding-left: 20px;
 }
 .logoutButton {
     border-top: 1px solid var(--color-gray-light);
     color: #ff8a8a;
 }
-.logoutButton:hover {
-    background-color: #ff8a8a;
-    color: var(--color-black);
+.logoutButton:hover { background-color: #ff8a8a; color: var(--color-black); }
+
+.tooltip { /* ... estilos do tooltip ... */ z-index: 10000; }
+
+/* === MEDIA QUERIES === */
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap; height: auto; padding-bottom: var(--spacing-sm);
+    }
+    .headerLeft { flex: 1 0 50%; }
+    .headerRight { flex: 1 0 50%; }
+    .headerCenter { flex: 1 0 100%; order: 3; margin-top: var(--spacing-sm); }
+    .logo { font-size: 1.8rem; }
+    .searchForm { max-width: none; }
+    .dropdownButton span { display: none; }
+    .actionButton { font-size: 0.8rem; padding: 5px 8px; } /* Ajuste de tamanho para o botão Login */
 }
 
 .tooltip {
@@ -191,23 +185,4 @@
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-}
-
-/* === MEDIA QUERIES PARA MOBILE === */
-@media (max-width: 768px) {
-    .header {
-        flex-wrap: wrap;
-        height: auto;
-        padding-bottom: var(--spacing-sm);
-    }
-    .headerLeft { flex: 1 0 50%; }
-    .headerRight { flex: 1 0 50%; }
-    .headerCenter {
-        flex: 1 0 100%;
-        order: 3;
-        margin-top: var(--spacing-sm);
-    }
-    .logo { font-size: 1.8rem; }
-    .searchForm { max-width: none; }
-    .dropdownButton span { display: none; } /* Esconde o "Olá, Leonardo" no mobile */
 }

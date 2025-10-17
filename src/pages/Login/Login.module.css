@@ -150,6 +150,19 @@
     color: var(--color-brand-yellow-hover);
 }
 
+.backLink {
+    margin-top: var(--spacing-lg); /* Espaço acima do link */
+    color: #aaa; /* Cor mais sutil que o amarelo principal */
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.backLink:hover {
+    color: var(--color-white); /* Cor mais clara no hover */
+    text-decoration: underline; /* Sublinhado no hover */
+}
+
 /* Media Queries para responsividade */
 @media (max-width: 768px) {
     .logoText {
