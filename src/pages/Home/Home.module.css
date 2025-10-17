@@ -1,86 +1,7 @@
+/* src/pages/Home/Home.module.css */
 .homeContainer {
-    padding-top: var(--header-height);
-    padding-bottom: var(--spacing-xl);
-}
-
-.sectionTitle {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    letter-spacing: 1.5px;
-    margin-top: var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
-    padding-left: var(--spacing-lg);
-    border-left: 4px solid var(--color-brand-yellow);
-}
-
-.listaFilmes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-lg);
-    position: relative; /* Garante o contexto para o z-index dos cards */
-}
-
-.filmeCard {
-    background-color: var(--color-gray-medium);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--color-white);
-    display: block;
-}
-
-.filmeCard:hover {
-    transform: scale(1.01) translateY(-10px);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(205, 173, 12, 0.879);
-    z-index: 10;
-}
-
-.filmeCard img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    display: block;
-}
-
-.filmeInfo {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
-    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s ease;
-}
-
-.filmeCard:hover {
-    transform: scale(1.01) translateY(-10px);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(205, 173, 12, 0.879);
-    z-index: 10;
-}
-
-.filmeInfo strong {
-    font-size: 1.2rem;
-    font-weight: 700;
-}
-
-.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: var(--font-display);
-    font-size: 2rem;
-}
-
-/* src/pages/Home/Home.module.css (Completo e com estilos do novo filtro) */
-.homeContainer {
-    padding-top: var(--header-height);
+    /* O padding do topo será ajustado na media query para mobile */
+    padding-top: calc(var(--header-height) + var(--spacing-lg));
     padding-bottom: var(--spacing-xl);
 }
 
@@ -88,7 +9,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
 }
 
@@ -101,7 +21,7 @@
 }
 
 .filterContainer {
-    position: relative; /* Para o posicionamento do dropdown */
+    position: relative;
 }
 
 .filterButton {
@@ -158,17 +78,62 @@
 
 .listaFilmes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* Layout de grade responsivo universal */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--spacing-lg);
     position: relative;
 }
-/* Adicione no final de Home.module.css */
+
+.filmeCard {
+    background-color: var(--color-gray-medium);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-white);
+    display: block;
+}
+
+.filmeCard:hover {
+    transform: scale(1.01) translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(205, 173, 12, 0.879);
+    z-index: 10;
+}
+
+.filmeCard img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    display: block;
+}
+
+.filmeInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.filmeCard:hover .filmeInfo {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.filmeInfo strong {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
 
 .skeletonCard {
     aspect-ratio: 2/3;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .skeletonImg {
@@ -176,9 +141,6 @@
     height: 100%;
     border-radius: var(--border-radius);
 }
-
-/* Ocultando o texto do skeleton, já que o design não mostrava texto */
-.skeletonText { display: none; } 
 
 .loadMoreContainer {
     display: flex;
@@ -204,27 +166,24 @@
     background-color: var(--color-brand-yellow-hover);
 }
 
-/* === MEDIA QUERIES PARA MOBILE === */
+/* === MEDIA QUERIES === */
 @media (max-width: 768px) {
     .homeContainer {
-        padding-top: 140px;
+        padding-top: 140px; /* Espaço para o header mobile */
     }
-    .listaFilmes {
-        grid-template-columns: repeat(2, 1fr);
+    .titleAndFilter {
+        flex-direction: column;
+        align-items: flex-start;
         gap: var(--spacing-md);
     }
     .sectionTitle {
         font-size: 2.5rem;
     }
-}
-
-@media (max-width: 600px) {
-    .listaFilmes {
-        grid-template-columns: repeat(2, 1fr); /* 3 colunas */
-        gap: var(--spacing-sm); /* Espaçamento menor para caber */
+    .filterContainer {
+        align-self: flex-end;
     }
-
-    .sectionTitle {
-        font-size: 2rem;
+    .listaFilmes {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--spacing-md);
     }
 }

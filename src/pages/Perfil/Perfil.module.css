@@ -1,0 +1,50 @@
+/* src/pages/Perfil/Perfil.module.css */
+.profileContainer {
+    padding-top: calc(var(--header-height) + var(--spacing-lg));
+    padding-bottom: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sectionTitle {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    letter-spacing: 1.5px;
+    margin-bottom: var(--spacing-lg);
+    align-self: flex-start;
+}
+
+.profileCard {
+    background-color: var(--color-gray-medium);
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 500px;
+}
+
+.avatarIcon {
+    color: var(--color-brand-yellow);
+}
+
+.userName {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.userEmail {
+    font-size: 1.2rem;
+    color: #aaa;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

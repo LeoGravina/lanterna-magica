@@ -1,6 +1,9 @@
-// src/pages/Filme/Filme.jsx (Versão Final Completa)
+// src/pages/Filme/Filme.jsx (Final e Completo com Firebase)
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { db, auth } from '../../firebase/firebase.js';
+import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import styles from './Filme.module.css';
@@ -34,6 +37,14 @@ function Filme() {
     const [watchProviders, setWatchProviders] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         async function loadFilmeData() {
@@ -58,10 +69,11 @@ function Filme() {
                     setWatchProviders(providersResponse.data.results.BR);
                 }
                 
-                const minhaLista = localStorage.getItem("@lanternaMagica");
-                const filmesSalvos = JSON.parse(minhaLista) || [];
-                const hasFilme = filmesSalvos.some((filmeSalvo) => filmeSalvo.id === filmeResponse.data.id);
-                setIsSaved(hasFilme);
+                if (auth.currentUser) {
+                    const movieRef = doc(db, "users", auth.currentUser.uid, "movies", filmeResponse.data.id.toString());
+                    const docSnap = await getDoc(movieRef);
+                    setIsSaved(docSnap.exists());
+                }
 
                 setLoading(false);
 
@@ -70,32 +82,39 @@ function Filme() {
             }
         }
         loadFilmeData();
-    }, [navigate, id]);
+    }, [navigate, id, user]);
 
-    function salvarFilme() {
-        const minhaLista = localStorage.getItem("@lanternaMagica");
-        let filmesSalvos = JSON.parse(minhaLista) || [];
-        
-        const hasFilme = filmesSalvos.some((filmeSalvo) => filmeSalvo.id === filme.id);
-        if (hasFilme) {
-            toast.warn("Esse filme já está na sua lista!");
+    async function handleSaveMovie() {
+        if (!user) {
+            toast.warn("Você precisa estar logado para salvar um filme!");
+            navigate('/login');
             return;
         }
 
-        filmesSalvos.push(filme);
-        localStorage.setItem("@lanternaMagica", JSON.stringify(filmesSalvos));
-        setIsSaved(true);
-
-        toast.success("Filme salvo com sucesso!", {
-            icon: <FaStar />,
-            style: {
-                background: 'var(--color-gray-medium)',
-                color: 'var(--color-brand-yellow)',
-                border: '1px solid var(--color-gray-light)',
-            },
-        });
+        const movieRef = doc(db, "users", user.uid, "movies", filme.id.toString());
+        
+        if (isSaved) {
+            await deleteDoc(movieRef);
+            setIsSaved(false);
+            toast.info("Filme removido dos seus salvos.");
+        } else {
+            await setDoc(movieRef, {
+                id: filme.id,
+                title: filme.title,
+                poster_path: filme.poster_path,
+            });
+            setIsSaved(true);
+            toast.success("Filme salvo com sucesso!", {
+                icon: <FaStar />,
+                style: {
+                    background: 'var(--color-gray-medium)',
+                    color: 'var(--color-brand-yellow)',
+                    border: '1px solid var(--color-gray-light)',
+                },
+            });
+        }
     }
-
+    
     if (loading) {
         return <SkeletonFilme />;
     }
@@ -105,15 +124,8 @@ function Filme() {
         return providers.map(provider => {
             const searchQuery = `Assistir ${filme.title} ${provider.provider_name}`;
             const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
-
             return (
-                <a 
-                    key={provider.provider_id} 
-                    href={searchUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className={styles.provider}
-                >
+                <a key={provider.provider_id} href={searchUrl} target="_blank" rel="noopener noreferrer" className={styles.provider}>
                     <img src={`https://image.tmdb.org/t/p/w92/${provider.logo_path}`} alt={provider.provider_name} title={provider.provider_name} />
                 </a>
             );
@@ -130,25 +142,15 @@ function Filme() {
                     </div>
                     <div className={styles.details}>
                         <h1>{filme.title}</h1>
-                        {filme.overview && (
-                            <>
-                                <h3>Sinopse</h3>
-                                <span>{filme.overview}</span>
-                            </>
-                        )}
+                        {filme.overview && ( <><h3>Sinopse</h3><span>{filme.overview}</span></> )}
                         <strong>Avaliação: {filme.vote_average ? filme.vote_average.toFixed(1) : 'N/A'} / 10</strong>
                         <div className={styles.areaButtons}>
-                            <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={salvarFilme} disabled={isSaved}>
-                                {isSaved ? "JÁ SALVO" : "SALVAR"}
+                            <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleSaveMovie} disabled={!user}>
+                                {isSaved ? "REMOVER" : "SALVAR"}
                             </button>
-                            <a className={`${styles.btn} ${styles.btnSecondary}`} target="_blank" rel="external noreferrer" href={`https://youtube.com/results?search_query=${filme.title} trailer`}>
-                                TRAILER
-                            </a>
-                            <Link to="/" className={`${styles.btn} ${styles.btnSecondary}`}>
-                                VOLTAR
-                            </Link>
+                            <a className={`${styles.btn} ${styles.btnSecondary}`} target="_blank" rel="external noreferrer" href={`https://youtube.com/results?search_query=${filme.title} trailer`}>TRAILER</a>
+                            <Link to="/" className={`${styles.btn} ${styles.btnSecondary}`}>VOLTAR</Link>
                         </div>
-
                         {watchProviders && (watchProviders.flatrate || watchProviders.rent || watchProviders.buy) && (
                             <div className={styles.streamingSection}>
                                 <h3>Onde Assistir</h3>
@@ -171,14 +173,9 @@ function Filme() {
                             <Link to={`/person/${person.id}`} key={person.id} className={styles.castMemberLink}>
                                 <div className={styles.castMember}>
                                     {person.profile_path ? (
-                                        <img 
-                                            src={`https://image.tmdb.org/t/p/w185/${person.profile_path}`} 
-                                            alt={person.name} 
-                                        />
+                                        <img src={`https://image.tmdb.org/t/p/w185/${person.profile_path}`} alt={person.name} />
                                     ) : (
-                                        <div className={styles.imagePlaceholder}>
-                                            <FaUserAlt size={40} />
-                                        </div>
+                                        <div className={styles.imagePlaceholder}><FaUserAlt size={40} /></div>
                                     )}
                                     <strong>{person.name}</strong>
                                     <span>{person.character}</span>

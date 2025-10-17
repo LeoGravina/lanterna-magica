@@ -132,24 +132,59 @@
     background-color: rgba(120, 120, 120, 0.7);
 }
 
-/* === MEDIA QUERIES PARA MOBILE === */
+/* Adicione estas classes ao final de Favoritos.module.css */
+
+.emptyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+    gap: var(--spacing-md);
+    color: #888;
+}
+
+.emptyIcon {
+    color: var(--color-gray-light);
+}
+
+.emptyContainer h2 {
+    font-size: 2rem;
+    color: var(--color-white);
+}
+
+.emptyContainer p {
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+.exploreButton {
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: var(--spacing-sm);
+    transition: all 0.3s ease;
+}
+
+.exploreButton:hover {
+    background-color: var(--color-brand-yellow-hover);
+    transform: scale(1.05);
+}
+
+/* === MEDIA QUERIES === */
 @media (max-width: 768px) {
     .favoritosContainer {
-        /* Aumenta o espaçamento do topo no mobile */
         padding-top: 140px;
-    }
-    .listaFilmes {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-md);
     }
     .sectionTitle {
         font-size: 2.5rem;
     }
-}
-
-@media (max-width: 600px) {
     .listaFilmes {
-        grid-template-columns: repeat(2, 1fr); /* 3 colunas */
-        gap: var(--spacing-sm);
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--spacing-md);
     }
 }

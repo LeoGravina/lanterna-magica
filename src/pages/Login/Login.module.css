@@ -1,0 +1,167 @@
+/* src/pages/Login/Login.module.css (Versão Final com Olho na Senha e Card) */
+.loginContainer {
+    display: flex;
+    flex-direction: column; /* Organiza logo e card verticalmente */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--color-black); /* Garante que o fundo seja preto */
+    position: relative;
+    overflow: hidden; /* Para não vazar sombra do card, se houver */
+}
+
+/* Estilos para a sua logo (div acima do card) */
+.logoContainer {
+    margin-bottom: var(--spacing-lg);
+    /* Exemplo para imagem: */
+    /* width: 150px; 
+    height: auto; */
+}
+
+.logoText {
+    font-family: var(--font-display);
+    font-size: 3rem; /* Tamanho do texto da logo */
+    color: var(--color-brand-yellow);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.logoText:hover {
+    color: var(--color-brand-yellow-hover);
+}
+
+.appLogo {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* Estilos para o card que envolve o formulário */
+.loginCard {
+    width: 100%;
+    max-width: 450px; /* Largura máxima do card */
+    background: rgba(20, 20, 20, 0.7); /* Fundo semi-transparente */
+    backdrop-filter: blur(10px); /* Efeito de blur no fundo */
+    -webkit-backdrop-filter: blur(10px); /* Compatibilidade Safari */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg) var(--spacing-xl); /* Mais padding horizontal */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra para destacar o card */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: 2.8rem; /* Um pouco menor para caber no card */
+    color: var(--color-brand-yellow);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #aaa;
+    margin-bottom: var(--spacing-lg);
+    max-width: 350px; /* Limita a largura para melhor leitura */
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form input {
+    width: 100%;
+    background-color: var(--color-gray-medium);
+    border: 1px solid var(--color-gray-light);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    color: var(--color-white);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form input:focus {
+    border-color: var(--color-brand-yellow);
+    outline: none; /* Remove outline padrão */
+}
+
+.passwordWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.passwordWrapper input {
+    padding-right: 50px; /* Espaço para o ícone */
+}
+
+.eyeIcon {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #888; /* Cor do ícone */
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.eyeIcon:hover {
+    color: var(--color-white); /* Cor ao passar o mouse */
+}
+
+.form button[type="submit"] {
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
+    border: none;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form button[type="submit"]:hover {
+    background-color: var(--color-brand-yellow-hover);
+    transform: scale(1.02);
+}
+
+.toggleButton {
+    background: none;
+    border: none;
+    color: var(--color-brand-yellow);
+    cursor: pointer;
+    margin-top: var(--spacing-lg);
+    font-size: 1rem;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.toggleButton:hover {
+    color: var(--color-brand-yellow-hover);
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+    .logoText {
+        font-size: 2.5rem;
+    }
+    .loginCard {
+        padding: var(--spacing-md);
+    }
+    .title {
+        font-size: 2rem;
+    }
+    .subtitle {
+        font-size: 1rem;
+    }
+}

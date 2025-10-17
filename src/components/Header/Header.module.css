@@ -1,19 +1,29 @@
+/* src/components/Header/Header.module.css (Versão "MUITO FODA") */
 .header {
     width: 100%;
     height: var(--header-height);
-    background-color: var(--color-black);
     position: fixed;
     top: 0;
     left: 0;
     z-index: 9999;
+    
+    /* O EFEITO DE VIDRO (GLASSMORPHISM) */
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 0 var(--spacing-md);
-    gap: var(--spacing-md);
-    border-bottom: 1px solid var(--color-gray-light);
-    transition: height 0.3s ease;
+    transition: all 0.3s ease;
 }
+
+/* Divisão do Header em 3 seções para alinhamento perfeito */
+.headerLeft, .headerRight { flex: 1; }
+.headerCenter { flex: 2; display: flex; justify-content: center; }
+.headerLeft { display: flex; justify-content: flex-start; }
+.headerRight { display: flex; justify-content: flex-end; }
 
 .logoContainer {
     position: relative;
@@ -27,64 +37,135 @@
     color: var(--color-brand-yellow);
     text-decoration: none;
     letter-spacing: 2px;
-    white-space: nowrap; /* Impede que o nome quebre em duas linhas */
+    white-space: nowrap;
+    text-shadow: 0 0 10px rgba(255, 191, 0, 0.5); /* Glow sutil no logo */
+    transition: all 0.3s ease;
+}
+.logo:hover {
+    text-shadow: 0 0 20px rgba(255, 191, 0, 0.8);
 }
 
 .searchForm {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background-color: var(--color-gray-medium);
-    padding: 6px;
-    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo quase invisível */
     border: 1px solid var(--color-gray-light);
-    flex-grow: 1;
-    max-width: 350px;
+    border-radius: 50px;
+    padding: 6px 8px 6px 16px;
+    width: 100%;
+    max-width: 450px;
+    transition: all 0.3s ease;
+}
+
+/* Efeito de foco na busca */
+.searchForm:focus-within {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-brand-yellow);
+    box-shadow: 0 0 15px rgba(205, 173, 12, 0.5);
 }
 
 .searchForm input {
-    background-color: transparent;
+    background: none;
     border: none;
     outline: none;
     color: var(--color-white);
     font-size: 1rem;
     width: 100%;
 }
-
-.searchForm input::placeholder {
-    color: #888;
-}
+.searchForm input::placeholder { color: #888; }
 
 .searchForm button {
     background: none;
     border: none;
-    color: var(--color-white);
+    color: #aaa;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: color 0.3s ease;
 }
-
-.searchForm button:hover {
+.searchForm:focus-within button {
     color: var(--color-brand-yellow);
 }
 
-.favoritosBtn {
-    background-color: var(--color-brand-yellow);
-    color: var(--color-black);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    white-space: nowrap;
+.userActions { display: flex; align-items: center; }
+
+.actionButton { /* Botão de Login */
+    /* ... (Estilos do botão de login continuam os mesmos) ... */
 }
 
-.favoritosBtn:hover {
-    background-color: var(--color-brand-yellow-hover);
-    transform: scale(1.05);
+/* Estilos do Dropdown */
+.userDropdown { position: relative; }
+
+.dropdownButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-gray-medium);
+    border: 1px solid var(--color-gray-light);
+    padding: 8px 12px;
+    border-radius: 50px;
+    color: var(--color-white);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.dropdownButton:hover { border-color: var(--color-brand-yellow); }
+.chevron { transition: transform 0.3s ease; }
+.chevronOpen { transform: rotate(180deg); }
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: rgba(34, 34, 34, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--border-radius);
+    width: 220px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    z-index: 1000;
+
+    /* Animação de entrada */
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: dropdownFadeIn 0.3s forwards;
+}
+
+@keyframes dropdownFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownItem {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    text-align: left;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+.dropdownItem:hover {
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
+    padding-left: 20px;
+}
+.logoutButton {
+    border-top: 1px solid var(--color-gray-light);
+    color: #ff8a8a;
+}
+.logoutButton:hover {
+    background-color: #ff8a8a;
+    color: var(--color-black);
 }
 
 .tooltip {
@@ -112,39 +193,21 @@
     transform: translateY(0);
 }
 
-/* === MEDIA QUERIES PARA MOBILE - VERSÃO CORRIGIDA PARA LOGO DE TEXTO === */
+/* === MEDIA QUERIES PARA MOBILE === */
 @media (max-width: 768px) {
     .header {
         flex-wrap: wrap;
         height: auto;
-        padding: var(--spacing-sm) var(--spacing-md);
+        padding-bottom: var(--spacing-sm);
     }
-
-    .logoContainer {
-        flex-grow: 1;
-    }
-
-    .logo {
-        /* Regra corrigida: ajusta o tamanho da fonte do logo em texto */
-        font-size: 1.8rem;
-        letter-spacing: 1px;
-    }
-
-    .favoritosBtn {
-        font-size: 0.8rem;
-        padding: 5px 8px;
-    }
-
-    .searchForm {
-        /* Barra de busca agora visível na linha de baixo */
+    .headerLeft { flex: 1 0 50%; }
+    .headerRight { flex: 1 0 50%; }
+    .headerCenter {
+        flex: 1 0 100%;
         order: 3;
-        width: 100%;
-        max-width: none;
         margin-top: var(--spacing-sm);
     }
-
-    .tooltip {
-        /* Esconde o tooltip em telas pequenas para não poluir a interface */
-        display: none;
-    }
+    .logo { font-size: 1.8rem; }
+    .searchForm { max-width: none; }
+    .dropdownButton span { display: none; } /* Esconde o "Olá, Leonardo" no mobile */
 }
