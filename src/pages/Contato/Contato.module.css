@@ -1,0 +1,88 @@
+/* src/pages/ContatoPage/Contato.module.css (Corrigido) */
+.contatoContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+    
+    /* === CORREÇÃO AQUI === */
+    /* Adiciona um padding no topo que considera a altura do header mais um espaço extra */
+    padding: calc(var(--header-height) + var(--spacing-xl)) var(--spacing-md) var(--spacing-lg);
+}
+
+.contatoCard {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.contatoTitle {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--color-brand-yellow);
+}
+
+.contatoSubtitle {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: var(--spacing-lg);
+}
+
+.contatoInfoList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+}
+
+.contatoItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    background-color: var(--color-gray-medium);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--color-white);
+    transition: all 0.3s ease;
+}
+
+.contatoItem:hover {
+    background-color: var(--color-gray-light);
+    transform: translateX(10px);
+    color: var(--color-brand-yellow);
+}
+
+.backButton {
+    background-color: transparent;
+    border: 1px solid var(--color-gray-light);
+    color: var(--color-white);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.backButton:hover {
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
+    border-color: var(--color-brand-yellow);
+}

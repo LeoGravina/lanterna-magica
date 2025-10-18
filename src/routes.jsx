@@ -11,6 +11,7 @@ import Search from './pages/Search/Search.jsx';
 import Pessoa from './pages/Pessoa/Pessoa.jsx';
 import Login from './pages/Login/Login.jsx';
 import Perfil from './pages/Perfil/Perfil.jsx';
+import Contato from './pages/Contato/Contato.jsx';
 
 function RoutesApp() {
     const location = useLocation();
@@ -24,7 +25,8 @@ function RoutesApp() {
                     <Route path="/" element={<Home />} />
                     <Route path="/filme/:id" element={<Filme />} />
                     <Route path="/search" element={<Search />} />
-                    <Route path="/person/:id" element={<Pessoa />} /> 
+                    <Route path="/person/:id" element={<Pessoa />} />
+                    <Route path="/contato" element={<Contato />} />
                     
                     <Route element={<PrivateRoute />}> 
                         <Route path="/favoritos" element={<Favoritos />} />

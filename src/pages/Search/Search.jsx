@@ -1,12 +1,19 @@
+// src/pages/Search/Search.jsx (Final e Corrigido)
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import api from '../../services/api';
 import styles from './Search.module.css';
 import { motion } from 'framer-motion';
 
+const SkeletonCard = () => (
+    <div className={styles.skeletonCard}>
+        <div className={`${styles.skeleton} ${styles.skeletonImg}`}></div>
+    </div>
+);
+
 function Search() {
     const [searchParams] = useSearchParams();
-    const query = searchParams.get("q"); 
+    const query = searchParams.get("q");
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -26,29 +33,35 @@ function Search() {
             setLoading(false);
         }
         loadSearchedMovies();
-    }, [query]); 
-
-    if (loading) {
-        return <div className={styles.loading}><h2>Carregando...</h2></div>;
-    }
+    }, [query]);
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className={`container ${styles.searchContainer}`}>
+                
+                {/* === TÍTULO ATUALIZADO AQUI === */}
                 <h1 className={styles.sectionTitle}>
                     Resultados para: <span className={styles.queryText}>{query}</span>
                 </h1>
-                {movies.length === 0 && <p>Nenhum filme encontrado com este termo.</p>}
-                <div className={styles.listaFilmes}>
-                    {movies.map((filme) => (
-                        <Link to={`/filme/${filme.id}`} key={filme.id} className={styles.filmeCard}>
-                            <img src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
-                            <div className={styles.filmeInfo}>
-                                <strong>{filme.title}</strong>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                
+                {loading ? (
+                    <div className={styles.listaFilmes}>
+                        {Array.from({ length: 12 }).map((_, index) => <SkeletonCard key={index} />)}
+                    </div>
+                ) : movies.length === 0 ? (
+                    <p className={styles.emptyMessage}>Nenhum filme encontrado com este termo.</p>
+                ) : (
+                    <div className={styles.listaFilmes}>
+                        {movies.map((filme) => (
+                            <Link to={`/filme/${filme.id}`} key={filme.id} className={styles.filmeCard}>
+                                <img src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
+                                <div className={styles.filmeInfo}>
+                                    <strong>{filme.title}</strong>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                )}
             </div>
         </motion.div>
     );

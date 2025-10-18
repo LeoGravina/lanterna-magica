@@ -1,4 +1,4 @@
-// src/components/Header/Header.jsx (Versão Final com Novo Layout e Dropdown)
+// src/components/Header/Header.jsx (Final com Ícones no Dropdown)
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
@@ -6,7 +6,8 @@ import { BiSearchAlt2 } from 'react-icons/bi';
 import { auth } from '../../firebase/firebase.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
-import { FaUserCircle, FaChevronDown } from 'react-icons/fa';
+import { FaUserCircle, FaChevronDown, FaFilm, FaRegUser, FaStar, FaSignOutAlt } from 'react-icons/fa'; // Ícones Importados
+import { GiLantern } from 'react-icons/gi';
 
 function Header() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -50,7 +51,10 @@ function Header() {
         <header className={styles.header}>
             <div className={styles.headerLeft}>
                 <div className={styles.logoContainer}>
-                    <Link className={styles.logo} to="/">LANTERNA MÁGICA</Link>
+                    <Link className={styles.logoLink} to="/">
+                        <span className={styles.logoText}>LANTERNA MÁGICA</span>
+                        <GiLantern className={styles.logoIcon} size={32} />
+                    </Link>
                     <p className={styles.tooltip}>
                         Uma homenagem aos primórdios do cinema, sugerindo descoberta e encanto.
                     </p>
@@ -59,15 +63,8 @@ function Header() {
 
             <div className={styles.headerCenter}>
                 <form className={styles.searchForm} onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Buscar por um filme..."
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        value={searchQuery}
-                    />
-                    <button type="submit">
-                        <BiSearchAlt2 size={20} />
-                    </button>
+                    <input type="text" placeholder="Buscar por um filme..." onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
+                    <button type="submit"><BiSearchAlt2 size={20} /></button>
                 </form>
             </div>
 
@@ -76,17 +73,17 @@ function Header() {
                     {user ? (
                         <div className={styles.userDropdown} ref={dropdownRef}>
                             <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className={styles.dropdownButton}>
-                                <FaUserCircle size={24} />
-                                <span>Olá, {user.displayName?.split(' ')[0]}</span>
+                                <FaUserCircle size={28} />
+                                <span className={styles.userName}>Olá, {user.displayName?.split(' ')[0]}</span>
                                 <FaChevronDown size={14} className={`${styles.chevron} ${isDropdownOpen ? styles.chevronOpen : ''}`} />
                             </button>
 
                             {isDropdownOpen && (
                                 <div className={styles.dropdownMenu}>
-                                    <Link to="/favoritos" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>Meus Filmes</Link>
-                                    <Link to="/" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>Em Cartaz</Link>
-                                    <Link to="/perfil" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>Perfil</Link>
-                                    <button onClick={handleLogout} className={`${styles.dropdownItem} ${styles.logoutButton}`}>Sair</button>
+                                    <Link to="/" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}><FaFilm />Em Cartaz</Link>
+                                    <Link to="/perfil" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}><FaRegUser />Perfil</Link>
+                                    <Link to="/favoritos" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}><FaStar />Meus Filmes</Link>
+                                    <button onClick={handleLogout} className={`${styles.dropdownItem} ${styles.logoutButton}`}><FaSignOutAlt />Sair</button>
                                 </div>
                             )}
                         </div>

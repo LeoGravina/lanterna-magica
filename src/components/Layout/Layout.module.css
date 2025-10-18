@@ -1,0 +1,9 @@
+.layoutWrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o container ocupe 100% da altura da tela */
+}
+
+.mainContent {
+    flex-grow: 1; /* Faz o conteúdo principal crescer e empurrar o footer para baixo */
+}

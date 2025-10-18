@@ -1,4 +1,4 @@
-/* src/pages/Filme/Filme.module.css (Completo e com o novo hover) */
+/* src/pages/Filme/Filme.module.css (Final e Completo) */
 
 .filmeContainer {
     position: relative;
@@ -92,6 +92,7 @@
 .areaButtons {
     margin-top: var(--spacing-lg);
     display: flex;
+    flex-wrap: wrap; /* Permite que os botões quebrem a linha */
     gap: var(--spacing-md);
 }
 
@@ -171,8 +172,7 @@
 }
 
 .castSection, .similarSection {
-    padding-top: var(--spacing-lg);
-    padding-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg) 0;
 }
 
 .sectionTitle {
@@ -180,8 +180,13 @@
     font-size: 2.5rem;
     letter-spacing: 1.5px;
     margin-bottom: var(--spacing-md);
-    padding-left: var(--spacing-lg);
-    border-left: 4px solid var(--color-brand-yellow);
+    color: var(--color-brand-yellow);
+    
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    
+    border-left: none; /* Remove a borda antiga */
 }
 
 .castGrid, .similarGrid {
@@ -198,12 +203,13 @@
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 }
 
-.castMemberLink {
+.castMemberLink, .similarCard {
     text-decoration: none;
     color: inherit;
     display: block;
     transition: all 0.3s ease;
     border-radius: var(--border-radius);
+    overflow: hidden;
 }
 
 .castMember {
@@ -240,12 +246,6 @@
     display: block;
 }
 
-.similarCard {
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
 .similarCard img {
     width: 100%;
     display: block;
@@ -253,14 +253,9 @@
     object-fit: cover;
 }
 
-/* ===== NOVOS EFEITOS DE HOVER AQUI ===== */
-
-.castMemberLink:hover{
-    transform: scale(1.0) translateY(-10px);
-}
-
+.castMemberLink:hover,
 .similarCard:hover {
-    transform: scale(1.0) translateY(-10px);
+    transform: scale(1.01) translateY(-10px);
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(205, 173, 12, 0.879);
     z-index: 10;
 }
@@ -283,23 +278,23 @@
 }
 
 .provider {
-    display: block; /* Garante que o link se comporte como um bloco */
+    display: block;
     transition: all 0.3s ease;
-    border-radius: 10px; /* Borda arredondada para a área clicável */
+    border-radius: 10px;
 }
 
 .provider:hover {
-    transform: scale(1.1); /* Scale baixo */
-    box-shadow: 0 0 15px rgba(205, 173, 12, 0.5); /* Sombra dourada */
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(205, 173, 12, 0.5);
     z-index: 10;
 }
 
 .provider img {
     width: 50px;
     height: 50px;
-    border-radius: 10px; /* Deixa o logo "quadrado" com cantos arredondados */
+    border-radius: 10px;
     object-fit: cover;
-    display: block; /* Remove espaços extras */
+    display: block;
 }
 
 /* === MEDIA QUERIES === */

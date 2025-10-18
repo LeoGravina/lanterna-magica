@@ -1,5 +1,7 @@
+/* src/pages/Favoritos/Favoritos.module.css (Versão Final e Corrigida) */
+
 .favoritosContainer {
-    padding-top: var(--header-height);
+    padding-top: calc(var(--header-height) + var(--spacing-lg));
     padding-bottom: var(--spacing-xl);
 }
 
@@ -13,28 +15,69 @@
     border-left: 4px solid var(--color-brand-yellow);
 }
 
+/* --- ESTILIZAÇÃO MODERNA DAS ABAS DE FILTRO --- */
+.filterBar {
+    display: flex;
+    gap: var(--spacing-md); /* Espaçamento entre as abas */
+    margin-bottom: var(--spacing-lg);
+    padding-left: var(--spacing-lg);
+    border-bottom: 2px solid var(--color-gray-medium); /* Linha de base para as abas */
+}
+
+.filterBar button {
+    background: none;
+    border: none;
+    color: #aaa; /* Cor para abas inativas */
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 12px 5px;
+    cursor: pointer;
+    position: relative; /* Essencial para o sublinhado animado */
+    transition: color 0.3s ease;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+/* Sublinhado animado */
+.filterBar button::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Posiciona sobre a linha de base */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: var(--color-brand-yellow);
+    transition: width 0.4s ease;
+}
+
+.filterBar button:hover {
+    color: var(--color-white);
+}
+
+.filterBar button:hover::after {
+    width: 100%;
+}
+
+.filterBar button.active {
+    color: var(--color-brand-yellow);
+}
+
+.filterBar button.active::after {
+    width: 100%;
+}
+/* --- FIM DOS ESTILOS DAS ABAS --- */
+
+
 .listaFilmes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-lg);
-    position: relative; /* Garante o contexto para o z-index dos cards */
-}
-
-.emptyMessage {
-    text-align: center;
-    margin-top: var(--spacing-xl);
-    color: #888;
-}
-
-.emptyMessage h2 {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.emptyMessage a {
-    color: var(--color-brand-yellow);
-    text-decoration: underline;
-    font-weight: bold;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md); 
+    position: relative;
+    margin-top: var(--spacing-md);
 }
 
 .filmeCard {
@@ -132,8 +175,101 @@
     background-color: rgba(120, 120, 120, 0.7);
 }
 
-/* Adicione estas classes ao final de Favoritos.module.css */
+/* --- ESTILOS DAS TAGS E DROPDOWN DE STATUS --- */
+.statusBadge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--color-black);
+    z-index: 5;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.statusFavorito { background-color: #FFBF00; color: #333; }
+.statusAssistido { background-color: #57ce70; } /* Mantive sua cor verde */
+.statusNaFila { background-color: #DDA0DD; }
+.statusJoiaRara { background-color: #AFEEEE; }
 
+.statusContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.statusButton {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-white);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.statusButton:hover {
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
+    border-color: var(--color-brand-yellow);
+}
+
+.statusDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 180px;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.statusDropdown button {
+    background: none;
+    border: none;
+    color: var(--color-white);
+    padding: 12px 18px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.statusDropdown button:hover {
+    background-color: var(--color-brand-yellow);
+    color: var(--color-black);
+}
+
+/* --- ESTILOS DA MENSAGEM DE LISTA VAZIA --- */
 .emptyContainer {
     display: flex;
     flex-direction: column;
@@ -172,10 +308,10 @@
 
 .exploreButton:hover {
     background-color: var(--color-brand-yellow-hover);
-    transform: scale(1.05);
+    transform: scale(1.01);
 }
 
-/* === MEDIA QUERIES === */
+/* === MEDIA QUERIES PARA RESPONSIVIDADE === */
 @media (max-width: 768px) {
     .favoritosContainer {
         padding-top: 140px;
@@ -186,5 +322,18 @@
     .listaFilmes {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: var(--spacing-md);
+    }
+    .filterBar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        border-bottom: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .filterBar::-webkit-scrollbar {
+        display: none;
+    }
+    .filterBar button::after {
+        bottom: 0;
     }
 }

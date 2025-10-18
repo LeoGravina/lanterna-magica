@@ -1,3 +1,4 @@
+// src/pages/Filme/Filme.jsx (Final, com Ícones nas Seções)
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { db, auth } from '../../firebase/firebase.js';
@@ -7,8 +8,9 @@ import api from '../../services/api';
 import { toast } from 'react-toastify';
 import styles from './Filme.module.css';
 import { motion } from 'framer-motion';
-import { FaStar, FaUserAlt } from 'react-icons/fa';
+import { FaStar, FaUserAlt, FaUsers, FaFilm } from 'react-icons/fa'; // Ícones FaUsers e FaFilm adicionados
 
+// Componente para o esqueleto da página de detalhes
 const SkeletonFilme = () => (
     <div className={styles.filmeContainer}>
         <div className={`container ${styles.contentCard}`}>
@@ -100,6 +102,7 @@ function Filme() {
                 id: filme.id,
                 title: filme.title,
                 poster_path: filme.poster_path,
+                status: 'Na Fila',
             });
             setIsSaved(true);
             toast.success("Filme salvo com sucesso!", {
@@ -165,7 +168,9 @@ function Filme() {
 
             {cast.length > 0 && (
                 <div className={`container ${styles.castSection}`}>
-                    <h2 className={styles.sectionTitle}>Elenco Principal</h2>
+                    <h2 className={styles.sectionTitle}>
+                        <FaUsers /> Elenco Principal
+                    </h2>
                     <div className={styles.castGrid}>
                         {cast.map((person) => (
                             <Link to={`/person/${person.id}`} key={person.id} className={styles.castMemberLink}>
@@ -186,7 +191,9 @@ function Filme() {
 
             {similarMovies.length > 0 && (
                 <div className={`container ${styles.similarSection}`}>
-                    <h2 className={styles.sectionTitle}>Filmes Semelhantes</h2>
+                    <h2 className={styles.sectionTitle}>
+                        <FaFilm /> Filmes Semelhantes
+                    </h2>
                     <div className={styles.similarGrid}>
                         {similarMovies.map((similar) => (
                             <Link to={`/filme/${similar.id}`} key={similar.id} className={styles.similarCard}>

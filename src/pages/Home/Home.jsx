@@ -1,15 +1,36 @@
-import { useEffect, useState } from 'react';
+// src/pages/Home/Home.jsx (Versão Final Completa com Dropdown Moderno)
+import { useEffect, useState, useRef } from 'react';
 import api from '../../services/api';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import { motion } from 'framer-motion';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaFilm, FaTheaterMasks, FaLaughBeam, FaBolt, FaBook, FaQuestionCircle, FaUsers, FaHatWizard, FaHistory, FaSkullCrossbones, FaSearch, FaHeart, FaRocket } from 'react-icons/fa';
 
+// Componente para o esqueleto do Card de Filme
 const SkeletonCard = () => (
     <div className={styles.skeletonCard}>
         <div className={`${styles.skeleton} ${styles.skeletonImg}`}></div>
     </div>
 );
+
+// Mapeamento de Gêneros para Ícones para um toque visual extra
+const genreIcons = {
+    'Ação': <FaBolt />,
+    'Aventura': <FaHatWizard />,
+    'Animação': <FaFilm />,
+    'Comédia': <FaLaughBeam />,
+    'Crime': <FaQuestionCircle />,
+    'Documentário': <FaBook />,
+    'Drama': <FaTheaterMasks />,
+    'Família': <FaUsers />,
+    'Fantasia': <FaHatWizard />,
+    'História': <FaHistory />,
+    'Terror': <FaSkullCrossbones />,
+    'Música': <FaFilm />,
+    'Mistério': <FaSearch />,
+    'Romance': <FaHeart />,
+    'Ficção científica': <FaRocket />,
+};
 
 function Home() {
     const [filmes, setFilmes] = useState([]);
@@ -20,7 +41,9 @@ function Home() {
     const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const filterRef = useRef(null);
 
+    // Efeito para buscar a lista de gêneros (roda apenas uma vez)
     useEffect(() => {
         async function loadGenres() {
             try {
@@ -35,6 +58,7 @@ function Home() {
         loadGenres();
     }, []);
 
+    // Efeito para buscar os filmes (com paginação)
     useEffect(() => {
         async function loadFilmes() {
             if (page > 1) {
@@ -44,12 +68,11 @@ function Home() {
             }
             
             const params = { api_key: import.meta.env.VITE_API_KEY, language: "pt-BR", page };
+            const endpoint = selectedGenre ? "discover/movie" : "movie/now_playing";
             if (selectedGenre) {
                 params.with_genres = selectedGenre.id;
             }
             
-            const endpoint = selectedGenre ? "discover/movie" : "movie/now_playing";
-
             const response = await api.get(endpoint, { params });
 
             setFilmes(prevFilmes => page === 1 ? response.data.results : [...prevFilmes, ...response.data.results]);
@@ -60,10 +83,22 @@ function Home() {
         loadFilmes();
     }, [selectedGenre, page]);
 
+    // Reseta a paginação ao mudar de gênero
     useEffect(() => {
         setPage(1);
         setFilmes([]);
     }, [selectedGenre]);
+
+    // Efeito para fechar o dropdown ao clicar fora
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (filterRef.current && !filterRef.current.contains(event.target)) {
+                setIsGenreDropdownOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [filterRef]);
 
     const handleGenreSelect = (genre) => {
         setSelectedGenre(genre);
@@ -76,15 +111,19 @@ function Home() {
                 <div className={styles.titleAndFilter}>
                     <h1 className={styles.sectionTitle}>{selectedGenre ? selectedGenre.name : "Em Cartaz"}</h1>
                     
-                    <div className={styles.filterContainer}>
+                    <div className={styles.filterContainer} ref={filterRef}>
                         <button className={styles.filterButton} onClick={() => setIsGenreDropdownOpen(!isGenreDropdownOpen)}>
-                            Gêneros <FaChevronDown size={14} />
+                            <span>{selectedGenre ? selectedGenre.name : "Gêneros"}</span>
+                            <FaChevronDown size={14} className={`${styles.chevron} ${isGenreDropdownOpen ? styles.chevronOpen : ''}`} />
                         </button>
                         {isGenreDropdownOpen && (
                             <div className={styles.genreDropdown}>
-                                <button onClick={() => handleGenreSelect(null)}>Todos</button>
+                                <button onClick={() => handleGenreSelect(null)}>
+                                    <FaFilm /> Em Cartaz
+                                </button>
                                 {genres.map((genre) => (
                                     <button key={genre.id} onClick={() => handleGenreSelect(genre)}>
+                                        {genreIcons[genre.name] || <FaFilm />}
                                         {genre.name}
                                     </button>
                                 ))}
@@ -109,7 +148,7 @@ function Home() {
                                 </Link>
                             ))}
                         </div>
-                        {hasMore && (
+                        {hasMore && !loading && (
                             <div className={styles.loadMoreContainer}>
                                 <button onClick={() => setPage(prevPage => prevPage + 1)} className={styles.loadMoreButton} disabled={loadingMore}>
                                     {loadingMore ? 'Carregando...' : 'Carregar Mais'}
