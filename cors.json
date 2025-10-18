@@ -1,21 +1,8 @@
 [
   {
-    "origin": [
-      "http://localhost:5173",
-      "https://*.netlify.app"
-    ],
-    "method": [
-      "GET",
-      "POST",
-      "PUT",
-      "DELETE",
-      "HEAD",
-      "OPTIONS"
-    ],
-    "responseHeader": [
-      "Content-Type",
-      "Access-Control-Allow-Origin"
-    ],
+    "origin": ["http://localhost:5173", "https://lanterna-magica.netlify.app"],
+    "responseHeader": ["Content-Type", "Authorization"],
+    "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     "maxAgeSeconds": 3600
   }
 ]
