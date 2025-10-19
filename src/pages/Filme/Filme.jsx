@@ -1,14 +1,14 @@
-// src/pages/Filme/Filme.jsx (Final, com Ícones nas Seções)
+// src/pages/Filme/Filme.jsx (Final, com Ícones nas Seções e Voltar Inteligente)
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { db, auth } from '../../firebase/firebase.js';
-import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import api from '../../services/api';
 import { toast } from 'react-toastify';
 import styles from './Filme.module.css';
 import { motion } from 'framer-motion';
-import { FaStar, FaUserAlt, FaUsers, FaFilm } from 'react-icons/fa'; // Ícones FaUsers e FaFilm adicionados
+import { FaStar, FaUserAlt, FaUsers, FaFilm } from 'react-icons/fa';
 
 // Componente para o esqueleto da página de detalhes
 const SkeletonFilme = () => (
@@ -103,6 +103,7 @@ function Filme() {
                 title: filme.title,
                 poster_path: filme.poster_path,
                 status: 'Na Fila',
+                savedAt: serverTimestamp()
             });
             setIsSaved(true);
             toast.success("Filme salvo com sucesso!", {
@@ -150,7 +151,10 @@ function Filme() {
                                 {isSaved ? "REMOVER" : "SALVAR"}
                             </button>
                             <a className={`${styles.btn} ${styles.btnSecondary}`} target="_blank" rel="external noreferrer" href={`https://youtube.com/results?search_query=${filme.title} trailer`}>TRAILER</a>
-                            <Link to="/" className={`${styles.btn} ${styles.btnSecondary}`}>VOLTAR</Link>
+                            {/* MUDANÇA AQUI: Trocado Link por button com navigate(-1) */}
+                            <button onClick={() => navigate(-1)} className={`${styles.btn} ${styles.btnSecondary}`}>
+                                VOLTAR
+                            </button>
                         </div>
                         {watchProviders && (watchProviders.flatrate || watchProviders.rent || watchProviders.buy) && (
                             <div className={styles.streamingSection}>

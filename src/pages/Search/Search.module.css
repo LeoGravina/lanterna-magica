@@ -92,15 +92,20 @@
 }
 
 /* === MEDIA QUERIES === */
+@media (max-width: 1200px) {
+    .listaFilmes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 @media (max-width: 768px) {
     .searchContainer {
-        padding-top: 140px;
+        padding-top: 100px;
     }
     .sectionTitle {
         font-size: 2rem;
     }
     .listaFilmes {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-template-columns: 1fr; /* 1 coluna para legibilidade */
         gap: var(--spacing-md);
     }
 }

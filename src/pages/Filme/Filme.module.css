@@ -172,7 +172,8 @@
 }
 
 .castSection, .similarSection {
-    padding: var(--spacing-lg) 0;
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
 }
 
 .sectionTitle {

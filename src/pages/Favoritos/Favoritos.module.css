@@ -320,8 +320,11 @@
         font-size: 2.5rem;
     }
     .listaFilmes {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: var(--spacing-md);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md); 
+    position: relative;
+    margin-top: var(--spacing-md);
     }
     .filterBar {
         flex-wrap: nowrap;

@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { db, auth } from '../../firebase/firebase.js';
-import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast } from 'react-toastify';
 import styles from './Favoritos.module.css';
 import { motion } from 'framer-motion';
-import { FaFilm, FaEllipsisV, FaStar, FaCheckCircle, FaRegClock, FaGem } from 'react-icons/fa'; // Importa todos os ícones necessários
+import { FaFilm, FaEllipsisV, FaStar, FaCheckCircle, FaRegClock, FaGem } from 'react-icons/fa'; 
 
 // Objeto de configuração para os status, agora com ícones
 const STATUS_OPTIONS = {
@@ -16,7 +16,7 @@ const STATUS_OPTIONS = {
     'Na Fila': { icon: <FaRegClock />, className: styles.statusNaFila },
     'Jóia Rara': { icon: <FaGem />, className: styles.statusJoiaRara },
 };
-const statusNames = Object.keys(STATUS_OPTIONS); // Array com os nomes: ['Favorito', 'Assistido', ...]
+const statusNames = Object.keys(STATUS_OPTIONS); 
 
 function Favoritos() {
     const [filmes, setFilmes] = useState([]);
@@ -42,9 +42,12 @@ function Favoritos() {
             if (!user) return;
             setLoading(true);
             const moviesRef = collection(db, "users", user.uid, "movies");
-            const querySnapshot = await getDocs(moviesRef);
+            const q = query(moviesRef, orderBy("savedAt", "desc"));
+            const querySnapshot = await getDocs(q);
             const savedMovies = [];
-            querySnapshot.forEach((doc) => savedMovies.push(doc.data()));
+            querySnapshot.forEach((doc) => {
+                savedMovies.push(doc.data());
+            });
             setFilmes(savedMovies);
             setLoading(false);
         }
@@ -126,7 +129,7 @@ function Favoritos() {
                                     <strong>{filme.title}</strong>
                                     <div className={styles.actions}>
                                         <Link to={`/filme/${filme.id}`} className={styles.btn}>Ver detalhes</Link>
-                                        <button onClick={() => excluirFilme(filme.id)} className={`${styles.btn} ${styles.btnExclude}`}>Excluir</button>
+                                        <button onClick={() => excluirFilme(filme.id)} className={`${styles.btn} ${styles.btnExclude}`}>Remover</button>
                                     </div>
                                 </div>
 

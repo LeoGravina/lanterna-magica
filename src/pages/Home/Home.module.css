@@ -212,10 +212,9 @@
     background-color: var(--color-brand-yellow-hover);
 }
 
-/* === MEDIA QUERIES === */
 @media (max-width: 768px) {
     .homeContainer {
-        padding-top: 140px;
+        padding-top: 100px; /* Ajuste para o header mobile */
     }
     .titleAndFilter {
         flex-direction: column;
@@ -229,7 +228,7 @@
         align-self: flex-end;
     }
     .listaFilmes {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: var(--spacing-md);
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
     }
 }

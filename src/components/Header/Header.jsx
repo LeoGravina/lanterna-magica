@@ -1,4 +1,4 @@
-// src/components/Header/Header.jsx (Final com Ícones no Dropdown)
+// src/components/Header/Header.jsx (Final com Logo de Texto Responsivo)
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
@@ -6,8 +6,7 @@ import { BiSearchAlt2 } from 'react-icons/bi';
 import { auth } from '../../firebase/firebase.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
-import { FaUserCircle, FaChevronDown, FaFilm, FaRegUser, FaStar, FaSignOutAlt } from 'react-icons/fa'; // Ícones Importados
-import { GiLantern } from 'react-icons/gi';
+import { FaUserCircle, FaChevronDown, FaFilm, FaRegUser, FaStar, FaSignOutAlt } from 'react-icons/fa';
 
 function Header() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -51,10 +50,8 @@ function Header() {
         <header className={styles.header}>
             <div className={styles.headerLeft}>
                 <div className={styles.logoContainer}>
-                    <Link className={styles.logoLink} to="/">
-                        <span className={styles.logoText}>LANTERNA MÁGICA</span>
-                        <GiLantern className={styles.logoIcon} size={32} />
-                    </Link>
+                    {/* Apenas o logo de texto, sem o ícone */}
+                    <Link className={styles.logo} to="/">LANTERNA MÁGICA</Link>
                     <p className={styles.tooltip}>
                         Uma homenagem aos primórdios do cinema, sugerindo descoberta e encanto.
                     </p>
@@ -73,16 +70,20 @@ function Header() {
                     {user ? (
                         <div className={styles.userDropdown} ref={dropdownRef}>
                             <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className={styles.dropdownButton}>
-                                <FaUserCircle size={28} />
+                                {user.photoURL ? (
+                                    <img src={user.photoURL} alt="Foto de perfil" className={styles.profilePic} />
+                                ) : (
+                                    <FaUserCircle size={28} />
+                                )}
                                 <span className={styles.userName}>Olá, {user.displayName?.split(' ')[0]}</span>
                                 <FaChevronDown size={14} className={`${styles.chevron} ${isDropdownOpen ? styles.chevronOpen : ''}`} />
                             </button>
 
                             {isDropdownOpen && (
                                 <div className={styles.dropdownMenu}>
+                                    <Link to="/favoritos" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}><FaStar />Meus Filmes</Link>
                                     <Link to="/" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}><FaFilm />Em Cartaz</Link>
                                     <Link to="/perfil" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}><FaRegUser />Perfil</Link>
-                                    <Link to="/favoritos" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}><FaStar />Meus Filmes</Link>
                                     <button onClick={handleLogout} className={`${styles.dropdownItem} ${styles.logoutButton}`}><FaSignOutAlt />Sair</button>
                                 </div>
                             )}
