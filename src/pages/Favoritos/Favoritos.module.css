@@ -1,7 +1,6 @@
 /* src/pages/Favoritos/Favoritos.module.css (Versão Final e Corrigida) */
 
 .favoritosContainer {
-    padding-top: calc(var(--header-height) + var(--spacing-lg));
     padding-bottom: var(--spacing-xl);
 }
 
@@ -311,11 +310,10 @@
     transform: scale(1.01);
 }
 
+
+
 /* === MEDIA QUERIES PARA RESPONSIVIDADE === */
 @media (max-width: 768px) {
-    .favoritosContainer {
-        padding-top: 120px;
-    }
     .titleAndFilter {
         flex-direction: column;
         align-items: flex-start;

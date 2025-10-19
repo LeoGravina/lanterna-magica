@@ -1,26 +1,20 @@
 // src/components/Header/Header.jsx (Final com Logo de Texto Responsivo)
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react'; // 1. Adicionado useContext
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { auth } from '../../firebase/firebase.js';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { FaUserCircle, FaChevronDown, FaFilm, FaRegUser, FaStar, FaSignOutAlt } from 'react-icons/fa';
+import { AuthContext } from '../../contexts/auth.jsx';
 
 function Header() {
+    const { user } = useContext(AuthContext);
     const [searchQuery, setSearchQuery] = useState("");
-    const [user, setUser] = useState(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        });
-        return () => unsubscribe();
-    }, []);
     
     useEffect(() => {
         function handleClickOutside(event) {
@@ -93,7 +87,9 @@ function Header() {
                     )}
                 </div>
             </div>
+            
         </header>
+
     );
 }
 

@@ -1,0 +1,19 @@
+/* src/pages/Favoritos/SkeletonCard.module.css */
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Simula a imagem do poster */
+.skeletonImage {
+    width: 100%;
+    height: 100%;
+}
+
+/* O conteúdo do overlay pode ser omitido para simplificar ou simulado */
+/* Neste caso, vamos manter simples, pois o efeito principal é o card brilhando */

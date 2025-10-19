@@ -1,0 +1,43 @@
+/* src/components/ScrollArrow/ScrollArrow.module.css (Final e Clicável) */
+.arrowContainer {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    color: var(--color-brand-yellow);
+    transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+
+    /* Estilos para parecer um botão, mas agora em um link <a> */
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer; /* Garante que o cursor de mãozinha apareça */
+    border-radius: 50%;
+}
+
+.arrowContainer:hover {
+    transform: translateX(-50%) scale(1.1);
+}
+
+.arrowContainer.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.blinkingArrow {
+    animation: blink 2s infinite cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(10px);
+    }
+}

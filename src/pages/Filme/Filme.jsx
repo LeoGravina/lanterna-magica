@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import styles from './Filme.module.css';
 import { motion } from 'framer-motion';
 import { FaStar, FaUserAlt, FaUsers, FaFilm } from 'react-icons/fa';
+import ScrollArrow from '../../components/ScrollArrow/ScrollArrow.jsx';
 
 // Componente para o esqueleto da página de detalhes
 const SkeletonFilme = () => (
@@ -135,7 +136,7 @@ function Filme() {
     };
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3, ease: "easeInOut" }} >
             <div className={styles.filmeContainer}>
                 <div className={styles.backdrop} style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${filme.backdrop_path})` }}></div>
                 <div className={`container ${styles.contentCard}`}>
@@ -207,6 +208,7 @@ function Filme() {
                     </div>
                 </div>
             )}
+            {!loading && <ScrollArrow />}
         </motion.div>
     );
 }

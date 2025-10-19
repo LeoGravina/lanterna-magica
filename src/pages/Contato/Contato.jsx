@@ -2,12 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiMail, FiPhone, FiLinkedin, FiGithub } from 'react-icons/fi';
 import styles from './Contato.module.css';
+import { motion } from 'framer-motion';
 
 function Contato() { // Nome da função corrigido para corresponder ao nome do arquivo
     const navigate = useNavigate();
 
     return (
-        // Nome da classe corrigido de 'contatoContent' para 'contatoContent'
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3, ease: "easeInOut" }} >
         <main className={styles.contatoContent}>
             <div className={styles.contatoCard}>
                 <h1 className={styles.contatoTitle}>Leonardo Gravina Carlos</h1>
@@ -37,6 +38,7 @@ function Contato() { // Nome da função corrigido para corresponder ao nome do 
                 </button>
             </div>
         </main>
+        </motion.div>
     );
 }
 

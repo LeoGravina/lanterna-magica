@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import { motion } from 'framer-motion';
 import { FaChevronDown, FaFilm, FaTheaterMasks, FaLaughBeam, FaBolt, FaBook, FaQuestionCircle, FaUsers, FaHatWizard, FaHistory, FaSkullCrossbones, FaSearch, FaHeart, FaRocket } from 'react-icons/fa';
+import ScrollArrow from '../../components/ScrollArrow/ScrollArrow.jsx';
 
 // Componente para o esqueleto do Card de Filme
 const SkeletonCard = () => (
@@ -106,7 +107,7 @@ function Home() {
     };
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3, ease: "easeInOut" }} >
             <div className={`container ${styles.homeContainer}`}>
                 <div className={styles.titleAndFilter}>
                     <h1 className={styles.sectionTitle}>{selectedGenre ? selectedGenre.name : "Em Cartaz"}</h1>
@@ -158,6 +159,7 @@ function Home() {
                     </>
                 )}
             </div>
+            {!loading && <ScrollArrow />}
         </motion.div>
     );
 }

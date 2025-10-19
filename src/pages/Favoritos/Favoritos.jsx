@@ -1,4 +1,4 @@
-// src/pages/Favoritos/Favoritos.jsx (Versão Final Completa com Ícones e Filtro)
+// src/pages/Favoritos/Favoritos.jsx (Versão Final com Skeleton Loader)
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { db, auth } from '../../firebase/firebase.js';
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import styles from './Favoritos.module.css';
 import { motion } from 'framer-motion';
 import { FaFilm, FaEllipsisV, FaStar, FaCheckCircle, FaRegClock, FaGem } from 'react-icons/fa'; 
+import SkeletonCard from './SkeletonCard.jsx'; // Importando o Skeleton
 
 // Objeto de configuração para os status, agora com ícones
 const STATUS_OPTIONS = {
@@ -74,16 +75,76 @@ function Favoritos() {
         setOpenDropdown(null);
     }
 
-    if (loading) {
-        return <div className={styles.loading}><h1>Carregando filmes salvos...</h1></div>;
-    }
-
     const filteredFilmes = activeFilter === 'Todos' 
         ? filmes 
         : filmes.filter(filme => filme.status === activeFilter);
+        
+    const renderContent = () => {
+        if (loading) {
+            return (
+                <div className={styles.listaFilmes}>
+                    {/* Renderiza 8 skeletons enquanto carrega */}
+                    {Array.from({ length: 8 }).map((_, index) => (
+                        <SkeletonCard key={index} />
+                    ))}
+                </div>
+            );
+        }
+
+        if (filteredFilmes.length === 0) {
+            return (
+                <div className={styles.emptyContainer}>
+                    <FaFilm size={60} className={styles.emptyIcon} />
+                    <h2>{activeFilter === 'Todos' ? 'Sua lista está vazia' : `Nenhum filme marcado como "${activeFilter}"`}</h2>
+                    <p>Explore o catálogo e comece sua coleção!</p>
+                    <Link to="/" className={styles.exploreButton}>Explorar Filmes</Link>
+                </div>
+            );
+        }
+
+        return (
+            <div className={styles.listaFilmes}>
+                {filteredFilmes.map((filme) => (
+                    <div key={filme.id} className={styles.filmeCard}>
+                        {filme.status && (
+                            <div className={`${styles.statusBadge} ${STATUS_OPTIONS[filme.status]?.className || ''}`}>
+                                {STATUS_OPTIONS[filme.status]?.icon}
+                                <span>{filme.status}</span>
+                            </div>
+                        )}
+                        
+                        <img src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
+                        
+                        <div className={styles.overlay}>
+                            <strong>{filme.title}</strong>
+                            <div className={styles.actions}>
+                                <Link to={`/filme/${filme.id}`} className={styles.btn}>Ver detalhes</Link>
+                                <button onClick={() => excluirFilme(filme.id)} className={`${styles.btn} ${styles.btnExclude}`}>Remover</button>
+                            </div>
+                        </div>
+
+                        <div className={styles.statusContainer}>
+                            <button className={styles.statusButton} onClick={() => setOpenDropdown(openDropdown === filme.id ? null : filme.id)}>
+                                <FaEllipsisV />
+                            </button>
+                            {openDropdown === filme.id && (
+                                <div className={styles.statusDropdown}>
+                                    {statusNames.map(status => (
+                                        <button key={status} onClick={() => updateMovieStatus(filme.id, status)}>
+                                            {STATUS_OPTIONS[status].icon} Marcar como "{status}"
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3, ease: "easeInOut" }} >
             <div className={`container ${styles.favoritosContainer}`}>
                 <h1 className={styles.sectionTitle}>Meus Filmes Salvos</h1>
 
@@ -105,52 +166,8 @@ function Favoritos() {
                     ))}
                 </div>
 
-                {filteredFilmes.length === 0 ? (
-                    <div className={styles.emptyContainer}>
-                        <FaFilm size={60} className={styles.emptyIcon} />
-                        <h2>{activeFilter === 'Todos' ? 'Sua lista está vazia' : `Nenhum filme marcado como "${activeFilter}"`}</h2>
-                        <p>Explore o catálogo e comece sua coleção!</p>
-                        <Link to="/" className={styles.exploreButton}>Explorar Filmes</Link>
-                    </div>
-                ) : (
-                    <div className={styles.listaFilmes}>
-                        {filteredFilmes.map((filme) => (
-                            <div key={filme.id} className={styles.filmeCard}>
-                                {filme.status && (
-                                    <div className={`${styles.statusBadge} ${STATUS_OPTIONS[filme.status]?.className || ''}`}>
-                                        {STATUS_OPTIONS[filme.status]?.icon}
-                                        <span>{filme.status}</span>
-                                    </div>
-                                )}
-                                
-                                <img src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
-                                
-                                <div className={styles.overlay}>
-                                    <strong>{filme.title}</strong>
-                                    <div className={styles.actions}>
-                                        <Link to={`/filme/${filme.id}`} className={styles.btn}>Ver detalhes</Link>
-                                        <button onClick={() => excluirFilme(filme.id)} className={`${styles.btn} ${styles.btnExclude}`}>Remover</button>
-                                    </div>
-                                </div>
+                {renderContent()}
 
-                                <div className={styles.statusContainer}>
-                                    <button className={styles.statusButton} onClick={() => setOpenDropdown(openDropdown === filme.id ? null : filme.id)}>
-                                        <FaEllipsisV />
-                                    </button>
-                                    {openDropdown === filme.id && (
-                                        <div className={styles.statusDropdown}>
-                                            {statusNames.map(status => (
-                                                <button key={status} onClick={() => updateMovieStatus(filme.id, status)}>
-                                                    {STATUS_OPTIONS[status].icon} Marcar como "{status}"
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
             </div>
         </motion.div>
     );

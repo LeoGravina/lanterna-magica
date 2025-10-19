@@ -4,6 +4,7 @@ import api from '../../services/api';
 import styles from './Pessoa.module.css';
 import { motion } from 'framer-motion';
 import { FaUserAlt } from 'react-icons/fa';
+import ScrollArrow from '../../components/ScrollArrow/ScrollArrow.jsx';
 
 function Pessoa() {
     const { id } = useParams();
@@ -43,7 +44,7 @@ function Pessoa() {
     }
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3, ease: "easeInOut" }} >
             <div className={`container ${styles.personContainer}`}>
                 <div className={styles.mainInfo}>
                     <div className={styles.poster}>
@@ -95,6 +96,7 @@ function Pessoa() {
                     </div>
                 )}
             </div>
+            {!loading && <ScrollArrow />}
         </motion.div>
     );
 }
