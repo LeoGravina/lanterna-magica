@@ -1,3 +1,4 @@
+/* src/components/Header/Header.module.css (Final com Header Mobile Maior) */
 .header {
     width: 100%;
     height: var(--header-height);
@@ -13,18 +14,14 @@
     align-items: center;
     padding: 0 var(--spacing-md);
     transition: all 0.3s ease;
+    padding-top: calc(var(--header-height) + var(--spacing-lg));
+    padding-bottom: var(--spacing-xl);
 }
 
 .headerLeft, .headerRight { flex: 1; }
 .headerCenter { flex: 2; display: flex; justify-content: center; }
 .headerLeft { display: flex; justify-content: flex-start; }
 .headerRight { display: flex; justify-content: flex-end; }
-
-.logoContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
 
 .logo {
     font-family: var(--font-display);
@@ -114,13 +111,12 @@
     color: var(--color-white);
 }
 .dropdownButton:hover > svg:first-child, .dropdownButton:hover > img {
-    border-color: var(--color-brand-yellow-hover); /* Destaque na foto/ícone */
+    border-color: var(--color-brand-yellow-hover);
 }
 
 .chevron { transition: transform 0.3s ease; }
 .chevronOpen { transform: rotate(180deg); }
 .userName { white-space: nowrap; }
-
 .dropdownMenu {
     position: absolute;
     top: calc(100% + 15px);
@@ -181,30 +177,57 @@
 }
 .logoContainer:hover .tooltip { opacity: 1; visibility: visible; transform: translateY(0); }
 
-@media (max-width: 900px) {
-    .headerCenter {
-        display: none; /* Esconde a busca em telas de tablet para dar espaço */
-    }
-}
-
+/* === MEDIA QUERIES PARA MOBILE - ATUALIZADAS === */
 @media (max-width: 768px) {
     .header {
         flex-wrap: wrap;
-        height: auto;
-        padding-bottom: var(--spacing-sm);
+        height: auto; /* Altura automática para acomodar as duas linhas */
+        padding: 12px var(--spacing-md);
     }
-    .headerLeft { flex: 1 0 auto; }
-    .headerRight { flex: 1 0 auto; }
-    .headerCenter { flex: 1 0 100%; order: 3; margin-top: var(--spacing-sm); }
+
+    .headerLeft, .headerRight {
+        flex: 1 0 auto;
+    }
+
+    .headerCenter {
+        flex: 1 0 100%;
+        order: 3;
+        margin-top: var(--spacing-md);
+    }
     
-    /* A MÁGICA PARA O LOGO RESPONSIVO */
     .logo {
-        font-size: 1.8rem; /* Fonte menor para caber */
-        letter-spacing: 1px;
+        font-size: 2rem; /* Logo um pouco maior */
+        letter-spacing: 1.5px;
     }
     
-    .searchForm { max-width: none; }
-    .userName { display: none; }
-    .actionButton { font-size: 0.8rem; padding: 5px 8px; }
-    .tooltip { display: none; }
+    .searchForm {
+        max-width: none;
+        padding: 8px 10px 8px 18px; /* Deixa a barra de busca mais alta */
+    }
+
+    .userName {
+        display: none; /* Mantém o nome oculto para economizar espaço */
+    }
+
+    /* Aumenta o tamanho do botão Login para deslogado */
+    .actionButton {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+
+    /* Aumenta o tamanho da área clicável do dropdown e da foto/ícone */
+    .dropdownButton {
+        padding: 6px;
+    }
+    .profilePic {
+        width: 36px;
+        height: 36px;
+    }
+    .dropdownButton > svg:first-child { /* Seleciona o ícone genérico FaUserCircle */
+        font-size: 36px;
+    }
+
+    .tooltip {
+        display: none;
+    }
 }

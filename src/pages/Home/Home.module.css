@@ -214,7 +214,7 @@
 
 @media (max-width: 768px) {
     .homeContainer {
-        padding-top: 100px; /* Ajuste para o header mobile */
+        padding-top: 140px; /* Ajuste para o header mobile */
     }
     .titleAndFilter {
         flex-direction: column;
@@ -230,5 +230,8 @@
     .listaFilmes {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-sm);
+    }
+    .tooltip {
+        display: none;
     }
 }
