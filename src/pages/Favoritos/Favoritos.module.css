@@ -6,7 +6,7 @@
 
 .sectionTitle {
     font-family: var(--font-display);
-    font-size: 3.5rem;
+    font-size: 2.8rem;
     letter-spacing: 1.5px;
     margin-top: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
@@ -70,7 +70,6 @@
 }
 /* --- FIM DOS ESTILOS DAS ABAS --- */
 
-
 .listaFilmes {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -89,7 +88,7 @@
 
 .filmeCard:hover {
     transform: scale(1.01) translateY(-10px);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(205, 173, 12, 0.879);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(205, 173, 12, 0.879);
     z-index: 10;
 }
 
@@ -314,6 +313,11 @@
 
 /* === MEDIA QUERIES PARA RESPONSIVIDADE === */
 @media (max-width: 768px) {
+
+    .favoritosContainer {
+        padding-top: 60px;
+    }
+
     .titleAndFilter {
         flex-direction: column;
         align-items: flex-start;

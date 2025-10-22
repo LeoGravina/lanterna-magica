@@ -9,7 +9,7 @@
 /* === ESTILO DO TÍTULO ATUALIZADO AQUI === */
 .sectionTitle {
     font-family: var(--font-display);
-    font-size: 3.5rem;
+    font-size: 2.8rem;
     letter-spacing: 1.5px;
     margin-bottom: var(--spacing-lg);
     align-self: flex-start;
@@ -35,8 +35,8 @@
 /* --- Avatar e Upload --- */
 .avatarWrapper {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
 }
 
 .profileAvatar {
@@ -99,7 +99,6 @@
     margin-bottom: var(--spacing-lg);
 }
 .infoDisplay h2 {
-    font-size: 2.2rem;
     font-weight: 700;
 }
 .infoDisplay button {
@@ -235,6 +234,11 @@
 }
 
 /* Botão Salvar Principal */
+
+.profileContainer {
+    padding-top: 90px;
+}
+
 .saveButton {
     background-color: var(--color-brand-yellow);
     color: var(--color-black);
